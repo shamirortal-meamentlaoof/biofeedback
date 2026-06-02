@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ביופידבק — כיתה ה׳1</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#27AE72;--gl:#E8F7F1;--yellow:#E8A020;--yl:#FEF6E4;--red:#C0392B;--rl:#FDECEA;--blue:#5B7FA6;--bg:#F4F4EF;--white:#FFF;--dark:#1A1A2E;--soft:#6B7280;--border:rgba(26,26,46,.09);--R:20px;--r:14px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--dark);height:100%;overflow:hidden;direction:rtl;-webkit-font-smoothing:antialiased;}
+#shell{display:flex;flex-direction:column;height:100dvh;height:100vh;}
+/* HEADER */
+#hdr{background:var(--white);padding:calc(env(safe-area-inset-top,0px) + 12px) 20px 12px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
+.ht{font-size:17px;font-weight:800;}.hs{font-size:12px;color:var(--soft);margin-top:1px;}
+/* CONTENT */
+#content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 160px);}
+/* BOTTOM NAV */
+#bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:6px 4px calc(env(safe-area-inset-bottom,0px) + 6px);display:flex;justify-content:space-around;z-index:200;}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:7px 4px;border-radius:12px;font-family:inherit;}
+.nb svg{width:24px;height:24px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:var(--soft);}
+.nb span{font-size:11px;font-weight:700;color:var(--soft);}
+.nb.active{background:var(--bg);}
+.nb.active svg{stroke:var(--dark);}
+.nb.active span{color:var(--dark);}
+/* VIEWS */
+.view{display:none;}.view.active{display:block;animation:fu .18s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+/* SECTION */
+.sh{padding:20px 20px 14px;display:flex;align-items:flex-start;justify-content:space-between;}
+.st{font-size:22px;font-weight:800;}.ss{font-size:13px;color:var(--soft);margin-top:3px;}
+.btn-p{background:var(--dark);color:#fff;border:none;border-radius:50px;padding:11px 20px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;}
+/* STAT ROW */
+.sr{display:flex;gap:10px;padding:0 20px 14px;}
+.sp{flex:1;background:var(--white);border-radius:var(--r);padding:14px 8px;text-align:center;box-shadow:0 2px 10px rgba(26,26,46,.06);}
+.sn{font-size:30px;font-weight:900;line-height:1;}.sl{font-size:11px;color:var(--soft);font-weight:600;margin-top:4px;}
+.sn.g{color:var(--green)}.sn.y{color:var(--yellow)}.sn.r{color:var(--red)}
+/* LEGEND */
+.leg{display:flex;gap:10px;padding:0 20px 12px;flex-wrap:wrap;}
+.li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--soft);font-weight:600;}
+.ld{width:9px;height:9px;border-radius:50%;}
+/* URGENT */
+.urg{margin:0 20px 12px;background:var(--rl);border:1px solid rgba(192,57,43,.2);border-radius:var(--r);padding:10px 14px;font-size:13px;font-weight:700;color:var(--red);display:flex;align-items:center;gap:8px;}
+.up{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+/* BUBBLES */
+.gs{padding:0 20px 8px;}.gl{font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+.bw{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.bbl{width:80px;height:80px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;font-size:13px;font-weight:800;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5);transition:transform .15s;}
+.bbl:active{transform:scale(.93);}
+.bbl.green{background:var(--green);box-shadow:0 4px 14px rgba(30,138,94,.35);}
+.bbl.yellow{background:var(--yellow);box-shadow:0 4px 14px rgba(232,160,32,.35);}
+.bbl.red{background:var(--red);box-shadow:0 4px 14px rgba(192,57,43,.35);}
+.bbl.blue{background:var(--blue);box-shadow:0 4px 14px rgba(91,127,166,.35);}
+/* OVERLAY + SHEET */
+.ovl{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;display:none;align-items:flex-end;}
+.ovl.open{display:flex;}
+.sht{width:100%;background:var(--white);border-radius:24px 24px 0 0;padding:14px 24px calc(env(safe-area-inset-bottom,0px) + 28px);max-height:88vh;overflow-y:auto;animation:su .22s ease;direction:rtl;text-align:right;}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.shh{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 18px;}
+/* DETAIL SHEET */
+.dh{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.db{width:52px;height:52px;border-radius:50%;flex-shrink:0;}
+.dn{font-size:20px;font-weight:800;}.ds{font-size:13px;color:var(--soft);margin-top:2px;}
+.dm{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.dmi{background:var(--bg);border-radius:var(--r);padding:12px 14px;}
+.dml{font-size:11px;color:var(--soft);font-weight:600;margin-bottom:3px;}
+.dmv{font-size:17px;font-weight:800;}
+.dan{font-size:14px;line-height:1.65;color:var(--soft);margin-bottom:14px;}
+.drec{border-radius:var(--r);padding:14px 16px;margin-bottom:16px;}
+.drt{font-size:14px;font-weight:800;color:var(--dark);margin-bottom:5px;}
+.drb{font-size:13px;line-height:1.6;color:var(--soft);}
+.dcl{width:100%;background:var(--dark);color:#fff;border:none;border-radius:var(--r);padding:14px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;}
+/* ENTRY INPUT SHEET */
+.eih{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.eib{width:48px;height:48px;border-radius:50%;flex-shrink:0;}
+.ein{font-size:20px;font-weight:800;}.eig{font-size:13px;color:var(--soft);}
+.eif{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.eif label{display:block;font-size:12px;font-weight:700;color:var(--soft);margin-bottom:8px;}
+.bigi{width:100%;background:var(--bg);border:2px solid var(--border);border-radius:var(--r);padding:16px 12px;font-family:inherit;font-size:32px;font-weight:900;color:var(--dark);text-align:center;-moz-appearance:textfield;}
+.bigi::-webkit-outer-spin-button,.bigi::-webkit-inner-spin-button{-webkit-appearance:none;}
+.bigi:focus{outline:none;border-color:var(--green);background:var(--white);box-shadow:0 0 0 3px rgba(30,138,94,.12);}
+.eidelta{background:var(--bg);border-radius:var(--r);padding:12px 16px;margin-bottom:16px;font-size:14px;font-weight:700;color:var(--dark);text-align:center;display:none;}
+.eidelta.show{display:block;}
+.eia{display:flex;gap:10px;}
+.eisave{flex:1;background:var(--dark);color:#fff;border:none;border-radius:50px;padding:14px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;}
+.eiskip{background:var(--bg);color:var(--soft);border:none;border-radius:50px;padding:14px 20px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;}
+.einav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
+.einav button{background:none;border:none;font-family:inherit;font-size:13px;font-weight:700;color:var(--soft);cursor:pointer;padding:8px;}
+.einav button:disabled{opacity:.3;cursor:default;}
+/* ENTRY LIST */
+.ec{display:flex;gap:10px;padding:0 20px 14px;}
+.ec select,.ec input[type=date]{flex:1;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;font-family:inherit;font-size:14px;color:var(--dark);direction:rtl;}
+.pw{padding:0 20px 14px;}
+.pb{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px;}
+.pf{height:100%;background:var(--green);border-radius:3px;transition:width .3s;}
+.pt{font-size:12px;color:var(--soft);font-weight:600;}
+.sl{padding:0 20px;}.gll{font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;padding:10px 0 6px;}
+.srow{display:flex;align-items:center;justify-content:space-between;background:var(--white);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;cursor:pointer;box-shadow:0 2px 8px rgba(26,26,46,.06);transition:transform .12s;}
+.srow:active{transform:scale(.98)}.srow.done{background:#F0F9F4;}
+.srl{display:flex;align-items:center;gap:12px;}
+.srd{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.srn{font-size:16px;font-weight:700;}.srv{font-size:12px;color:var(--soft);margin-top:2px;}
+.srr{display:flex;align-items:center;gap:8px;}
+.srck{font-size:18px;color:var(--green)}.sred{font-size:12px;color:var(--soft);font-weight:600;}
+.savebar{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 64px);left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--border);padding:10px 20px;display:flex;gap:10px;align-items:center;z-index:50;}
+.svbtn{flex:1;background:var(--dark);color:#fff;border:none;border-radius:50px;padding:13px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;}
+.svprog{font-size:13px;color:var(--soft);font-weight:600;white-space:nowrap;}
+/* MUTUAL */
+.pc{margin:0 20px 12px;background:var(--white);border-radius:var(--R);padding:16px 18px;box-shadow:0 2px 8px rgba(26,26,46,.06);}
+.pn{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.pnm{display:flex;align-items:center;gap:6px;font-size:16px;font-weight:800;}
+.pmd{width:10px;height:10px;border-radius:50%;}
+.pa{color:var(--soft);font-size:18px;}
+.pt2{font-size:13px;line-height:1.6;color:var(--soft);background:var(--bg);border-radius:var(--r);padding:10px 12px;}
+/* GUIDE */
+.gsec{margin:0 20px 14px;background:var(--white);border-radius:var(--R);padding:18px 20px;box-shadow:0 2px 8px rgba(26,26,46,.06);}
+.gsec h3{font-size:15px;font-weight:800;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--bg);}
+.gsec p{font-size:14px;line-height:1.7;color:var(--soft);margin-bottom:8px;}
+.gsec p:last-child{margin-bottom:0;}
+.gsec ol{padding-right:18px;font-size:14px;line-height:1.9;color:var(--soft);}
+.wcs{display:flex;flex-direction:column;gap:10px;margin:0 20px 16px;}
+.wc{border-radius:14px;padding:14px 16px;border:2px solid transparent;}
+.wc.r{background:var(--rl);border-color:rgba(192,57,43,.25);}
+.wc.g{background:var(--gl);border-color:rgba(30,138,94,.25);}
+.wc.y{background:var(--yl);border-color:rgba(201,123,0,.25);}
+.wct{font-size:15px;font-weight:800;margin-bottom:6px;}
+.wc.r .wct{color:var(--red)}.wc.g .wct{color:var(--green)}.wc.y .wct{color:var(--yellow)}
+.wcb{font-size:13px;line-height:1.6;color:var(--soft);}
+.wts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.wt{font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid;}
+.wc.r .wt{background:rgba(192,57,43,.08);border-color:rgba(192,57,43,.3);color:var(--red);}
+.wc.g .wt{background:rgba(30,138,94,.08);border-color:rgba(30,138,94,.3);color:var(--green);}
+.wc.y .wt{background:rgba(201,123,0,.08);border-color:rgba(201,123,0,.3);color:var(--yellow);}
+.wca{font-size:13px;font-weight:700;margin-top:8px;}
+.wc.r .wca{color:var(--red)}.wc.g .wca{color:var(--green)}.wc.y .wca{color:var(--yellow)}
+/* EMPTY */
+.empty{text-align:center;padding:52px 32px;color:var(--soft);}
+.empty-ico{font-size:48px;margin-bottom:14px;}
+.empty p{font-size:14px;line-height:1.7;}
+/* FOOTER */
+.app-footer{text-align:center;font-size:11px;color:var(--soft);padding:20px 20px 8px;line-height:1.5;}
+/* CHART (dashboard) */
+#class-chart-wrap{min-height:300px;width:100%;box-sizing:border-box;margin:16px 20px 0;}
+#class-chart-wrap .chart-cap{font-size:15px;font-weight:800;margin-bottom:12px;}
+#class-chart{display:block;width:100%;min-height:280px;height:280px;background:var(--white);border-radius:14px;padding:8px;box-sizing:border-box;}
+/* SAVED SESSIONS */
+.sess-card{background:var(--white);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;box-shadow:0 2px 8px rgba(26,26,46,.06);}
+.sess-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.sess-date{font-size:15px;font-weight:800;}
+.sess-tech{font-size:12px;color:var(--soft);font-weight:600;margin-top:2px;}
+.sess-count{font-size:12px;color:var(--soft);}
+.sess-btns{display:flex;gap:8px;margin-top:10px;}
+.sess-edit{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:9px;font-family:inherit;font-size:13px;font-weight:700;color:var(--dark);cursor:pointer;}
+.sess-del{background:var(--rl);border:1.5px solid rgba(192,57,43,.2);border-radius:50px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:700;color:var(--red);cursor:pointer;}
+/* TOAST */
+#toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px)+82px);right:20px;left:20px;background:var(--dark);color:#fff;padding:12px 18px;border-radius:14px;font-size:14px;font-weight:600;opacity:0;transform:translateY(6px);transition:all .22s;pointer-events:none;z-index:999;text-align:center;}
+#toast.show{opacity:1;transform:translateY(0);}
+</style>
+<!-- Firebase SDK (compat version - works everywhere) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCzzG81a4xGyTAf2gijD6BZvR2HT0TABFs",
+  authDomain: "biofeedback-9d84a.firebaseapp.com",
+  databaseURL: "https://biofeedback-9d84a-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "biofeedback-9d84a",
+  storageBucket: "biofeedback-9d84a.firebasestorage.app",
+  messagingSenderId: "157366027215",
+  appId: "1:157366027215:web:92eb2e9290ce621728c8ba"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// טעינת נתונים בזמן אמת
+db.ref('sessions').on('value', (snapshot) => {
+  const data = snapshot.val();
+  if (data) {
+    const loaded = Object.values(data);
+    state.sessions = loaded.sort((a,b) => a.date.localeCompare(b.date));
+  } else {
+    for (const s of INITIAL) {
+      db.ref('sessions/' + s.id).set(s);
+    }
+  }
+  // רנדור — אבל לא מאפס entry אם המשתמש באמצע הזנה
+  if (typeof renderDash === 'function') renderDash();
+  if (typeof renderMutual === 'function' && document.getElementById('view-mutual').classList.contains('active')) renderMutual();
+  if (typeof renderSavedSessions === 'function' && document.getElementById('view-entry').classList.contains('active')) renderSavedSessions();
+  const ind = document.getElementById('fb-indicator');
+  if (ind) { ind.textContent = ''; ind.title = 'מחובר לענן'; }
+});
+
+// שמירה ל-Firebase
+window.saveToFirebase = function(sess) {
+  db.ref('sessions/' + sess.id).set(sess).catch(err => console.error('Firebase save error:', err));
+};
+
+// מחיקה מ-Firebase
+window._fbRemovePath = function(path) {
+  db.ref(path).remove().catch(err => console.error('Firebase remove error:', err));
+};
+
+// טעינת תלמידים מותאמים אישית מ-Firebase
+db.ref('students_config').on('value', (snapshot) => {
+  const data = snapshot.val();
+  if (data) {
+    const overrides = data; // {id: {name, gender, group}}
+    for (const st of STUDENTS) {
+      if (overrides[st.id]) {
+        if (overrides[st.id].name) st.name = overrides[st.id].name;
+        if (overrides[st.id].gender) st.gender = overrides[st.id].gender;
+        if (overrides[st.id].group) st.group = overrides[st.id].group;
+      }
+    }
+    // Add new students not in original list
+    if (overrides._new) {
+      const existingIds = new Set(STUDENTS.map(s=>s.id));
+      for (const [id, st] of Object.entries(overrides._new)) {
+        if (!existingIds.has(id)) STUDENTS.push({id, name:st.name, gender:st.gender, group:st.group});
+      }
+    }
+    if (typeof renderEList === 'function') renderEList();
+    if (typeof renderDash === 'function') renderDash();
+  }
+});
+
+window._saveStudentConfig = function(id, data) {
+  db.ref('students_config/' + id).update(data).catch(err => console.error('Firebase student save error:', err));
+};
+</script>
+</head>
+<body>
+<div id="shell">
+  <header id="hdr">
+    <div><div class="ht">כיתה ה׳1 — ביופידבק</div><div class="hs">אורטל שמיר · מאמנת לעוף</div></div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span id="fb-indicator" title="מתחבר..." style="font-size:16px;cursor:default;"></span>
+    </div>
+  </header>
+  <div id="content">
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <div class="sh"><div><div class="st">תמונת מצב</div></div></div>
+
+      <div style="padding:16px 20px 0;">
+
+        <!-- התקדמות כיתתית - עיגולים -->
+        <div style="background:var(--white);border-radius:var(--r);padding:20px;box-shadow:0 2px 8px rgba(26,26,46,.06);margin-bottom:12px;direction:rtl;text-align:center;">
+          <div style="font-size:13px;color:var(--soft);font-weight:600;margin-bottom:16px;">התקדמות כיתתית</div>
+          <div style="display:flex;justify-content:center;">
+            <div style="text-align:center;cursor:pointer;" onclick="openHrvTechDetail()">
+              <div style="position:relative;width:130px;height:130px;margin:0 auto;">
+                <svg width="130" height="130" viewBox="0 0 130 130">
+                  <circle cx="65" cy="65" r="54" fill="none" stroke="#E8E8E4" stroke-width="12"/>
+                  <circle id="hrv-arc" cx="65" cy="65" r="54" fill="none" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-dasharray="339" stroke-dashoffset="339" transform="rotate(-90 65 65)" style="transition:stroke-dashoffset 1s ease"/>
+                </svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                  <div id="avg-hrv-improve" style="font-size:28px;font-weight:900;color:#2563EB;">—</div>
+                  <div style="font-size:10px;color:var(--soft);">מהבסיס</div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:#2563EB;margin-top:10px;font-weight:700;">שיפור ביכולת ההתאוששות</div>
+              <div style="font-size:10px;color:var(--soft);margin-top:2px;">לחצי לפירוט לפי טכניקה</div>
+            </div>
+          </div>
+          <div id="improve-count" style="display:none"></div>
+          <div id="avg-rlx-improve" style="display:none"></div>
+          <div id="total-tracked" style="display:none"></div>
+        </div>
+
+        <!-- סבב אחרון -->
+        <div style="background:var(--white);border-radius:var(--r);padding:14px 16px;box-shadow:0 2px 8px rgba(26,26,46,.06);margin-bottom:12px;direction:rtl;">
+          <div style="font-size:12px;color:var(--soft);font-weight:700;margin-bottom:10px;" id="dsub">סבב אחרון</div>
+          <div style="display:flex;gap:10px;" onclick="openClassView()">
+            <div class="sp" style="flex:1;text-align:center;cursor:pointer;">
+              <div class="sn r" id="stat-hyper">—</div>
+              <div class="sl">היפר-עוררות</div>
+            </div>
+            <div class="sp" style="flex:1;text-align:center;cursor:pointer;">
+              <div class="sn g" id="stat-stable">—</div>
+              <div class="sl">חלון הסבלנות </div>
+            </div>
+            <div class="sp" style="flex:1;text-align:center;cursor:pointer;">
+              <div class="sn y" id="stat-hypo">—</div>
+              <div class="sl">היפו-עוררות</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- hidden elements kept for compatibility -->
+      <div id="score-num" style="display:none"></div>
+      <div id="score-arc" style="display:none"></div>
+      <div id="score-label" style="display:none"></div>
+      <div id="hrv-first" style="display:none"></div>
+      <div id="hrv-now" style="display:none"></div>
+      <div id="hrv-arrow" style="display:none"></div>
+      <div id="hrv-label" style="display:none"></div>
+
+      <div class="sr" id="srow" style="margin-top:24px;"></div>
+      <div id="uw"></div>
+      <div id="ba"></div>
+
+      <div style="text-align:center;padding:24px 20px 16px;font-size:11px;color:var(--soft);font-weight:500;">© כל הזכויות שמורות לאורטל שמיר 2026</div>
+    </div>
+    <!-- ENTRY -->
+    <div class="view" id="view-entry">
+      <div class="sh" style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="st">הזנה יומית</div>
+        <button onclick="openStudentMgmt()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:7px 14px;font-family:inherit;font-size:12px;font-weight:700;color:var(--soft);cursor:pointer;">ניהול תלמידים</button>
+      </div>
+      <div class="ec"><input type="date" id="edate"><select id="etech"></select></div>
+      <div class="pw"><div class="pb"><div class="pf" id="pfill" style="width:0%"></div></div><div class="pt" id="ptxt">לחצי על תלמיד/ה להזנת מדידות</div></div>
+      <div style="padding:0 20px 8px;">
+        <input type="text" id="student-search" placeholder="חיפוש תלמיד..." oninput="filterStudents(this.value)"
+          style="width:100%;padding:10px 14px;border-radius:50px;border:1.5px solid var(--border);font-family:inherit;font-size:14px;box-sizing:border-box;background:var(--white);">
+      </div>
+      <div class="sl" id="elist"></div>
+      <!-- סבבים שמורים -->
+      <div style="padding:24px 20px 8px;">
+        <div style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;">סבבים שמורים</div>
+        <div id="saved-sessions-list"></div>
+      </div>
+      <div style="height:80px"></div>
+      <div class="savebar"><button class="svbtn" onclick="saveSession()">שמור סבב</button><span class="svprog" id="svprog">0 / 20</span></div>
+    </div>
+    <!-- MUTUAL -->
+    <div class="view" id="view-mutual">
+      <div class="sh"><div><div class="st">ציוות חכם</div><div class="ss">בחרי מצב ובני קבוצה</div></div></div>
+
+      <!-- MODE TABS -->
+      <div style="display:flex;gap:8px;padding:0 20px 14px;">
+        <button id="tab-auto" onclick="switchMutualMode('auto')" style="flex:1;padding:10px;background:var(--dark);color:#fff;border:none;border-radius:50px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">אוטומטי</button>
+        <button id="tab-manual" onclick="switchMutualMode('manual')" style="flex:1;padding:10px;background:var(--white);color:var(--soft);border:1.5px solid var(--border);border-radius:50px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">ידני</button>
+      </div>
+
+      <!-- AUTO PANEL -->
+      <div id="auto-panel" style="padding:0 20px 14px;">
+        <div style="background:var(--white);border-radius:var(--R);padding:16px;box-shadow:0 2px 8px rgba(26,26,46,.06);margin-bottom:12px;">
+
+          <!-- Activity type -->
+          <div style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;">סוג פעילות</div>
+          <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <button class="act-btn" id="act-study" onclick="selectActivity('study',this)" style="flex:1;padding:10px 6px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:12px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;text-align:center;"><span style='font-size:10px;'>עיוני</span></button>
+            <button class="act-btn" id="act-creative" onclick="selectActivity('creative',this)" style="flex:1;padding:10px 6px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:12px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;text-align:center;"><span style='font-size:10px;'>יצירתי</span></button>
+            <button class="act-btn" id="act-social" onclick="selectActivity('social',this)" style="flex:1;padding:10px 6px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:12px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;text-align:center;"><span style='font-size:10px;'>רגשי-חברתי</span></button>
+          </div>
+
+          <!-- Group size -->
+          <div style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;">גודל קבוצה</div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+            <input type="range" id="size-slider" min="2" max="24" value="3" oninput="mutualState.size=+this.value;document.getElementById('size-val').textContent=this.value"
+              style="flex:1;accent-color:var(--dark);height:4px;cursor:pointer;">
+            <div id="size-val" style="min-width:28px;font-size:22px;font-weight:900;color:var(--dark);text-align:center;">3</div>
+          </div>
+
+          <!-- Gender -->
+          <div style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;">הרכב מגדרי</div>
+          <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <button class="gnd-btn" onclick="selectGender('same',this)" style="flex:1;padding:9px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:50px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">אותו מין</button>
+            <button class="gnd-btn" onclick="selectGender('mixed',this)" style="flex:1;padding:9px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:50px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">מעורב</button>
+          </div>
+
+          <!-- Color mode -->
+          <div style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;">בסיס ההערכה</div>
+          <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <button class="cm-auto-btn" id="cma-now" onclick="selectAutoColorMode('now',this)" style="flex:1;padding:9px;background:var(--dark);color:#fff;border:2px solid var(--dark);border-radius:50px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">מצב עכשיו</button>
+            <button class="cm-auto-btn" id="cma-avg" onclick="selectAutoColorMode('avg',this)" style="flex:1;padding:9px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:50px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">ממוצע כולל</button>
+          </div>
+
+          <!-- Specific gender (shown only when 'same' chosen) -->
+          <div id="specific-gender-pick" style="display:none;margin-bottom:16px;">
+            <div style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;">איזה מין?</div>
+            <div style="display:flex;gap:8px;">
+              <button class="sg-btn" onclick="selectSpecificGender('f',this)" style="flex:1;padding:9px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:50px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">בנות</button>
+              <button class="sg-btn" onclick="selectSpecificGender('m',this)" style="flex:1;padding:9px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:50px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">בנים</button>
+            </div>
+          </div>
+
+          <button onclick="buildAutoGroup()" style="width:100%;padding:13px;background:var(--dark);color:#fff;border:none;border-radius:50px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;">בני קבוצה ›</button>
+        </div>
+
+        <!-- Auto result -->
+        <div id="auto-result" style="display:none;"></div>
+      </div>
+
+      <!-- MANUAL PANEL -->
+      <div id="manual-panel" style="display:none;">
+        <div style="padding:0 20px 10px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;">בחרי ילדים לקבוצה</div>
+          <div style="display:flex;align-items:center;gap:6px;background:var(--bg);border-radius:50px;padding:3px;">
+            <button id="cm-now" onclick="setColorMode('now')" style="padding:5px 10px;border-radius:50px;border:none;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;background:var(--dark);color:#fff;">עכשיו</button>
+            <button id="cm-avg" onclick="setColorMode('avg')" style="padding:5px 10px;border-radius:50px;border:none;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;background:transparent;color:var(--soft);">ממוצע</button>
+          </div>
+        </div>
+        <!-- Activity type for manual mode -->
+        <div style="padding:0 20px 12px;">
+          <div style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;">סוג פעילות</div>
+          <div style="display:flex;gap:8px;">
+            <button class="mact-btn" id="mact-study" onclick="selectManualActivity('study',this)" style="flex:1;padding:8px 4px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:12px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;text-align:center;">עיוני</button>
+            <button class="mact-btn" id="mact-creative" onclick="selectManualActivity('creative',this)" style="flex:1;padding:8px 4px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:12px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;text-align:center;">יצירתי</button>
+            <button class="mact-btn" id="mact-social" onclick="selectManualActivity('social',this)" style="flex:1;padding:8px 4px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:12px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;text-align:center;">רגשי-חברתי</button>
+          </div>
+        </div>
+        <div id="mc" style="padding:0 20px;"></div>
+        <div id="group-score-card" style="display:none;margin:12px 20px 16px;background:var(--white);border-radius:var(--r);padding:16px;box-shadow:0 2px 8px rgba(26,26,46,.06);"></div>
+      </div>
+    </div>
+  </div>
+  <nav id="bnav">
+    <button class="nb active" onclick="switchView('dashboard')" id="nb-dashboard"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>מצב</span></button>
+    <button class="nb" onclick="switchView('entry')" id="nb-entry"><svg viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5"/><path d="M17.5 3.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 7.5-7.5z"/></svg><span>הזנה</span></button>
+    <button class="nb" onclick="switchView('mutual')" id="nb-mutual"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span>ויסות</span></button>
+  </nav>
+</div>
+
+<!-- DETAIL SHEET -->
+<div class="ovl" id="dovl" onclick="closeDSheet(event)">
+  <div class="sht"><div class="shh"></div><div id="dcnt"></div></div>
+</div>
+
+<!-- ENTRY INPUT SHEET -->
+<div class="ovl" id="eovl" onclick="closeESheet(event)">
+  <div class="sht"><div class="shh"></div><div id="ecnt"></div></div>
+</div>
+
+<div id="toast"></div>
+<script>
+const SHEETS_URL='https://script.google.com/macros/s/AKfycbyWbKFQasf4x3sNIx5qvkkiE4cp0HZ-bQFl7khKajwecQ27evqfSH0r9aYNa1Yy4rSIjg/exec';
+const STUDENTS=[
+  {id:'liya',name:'ליה',group:'בנות',gender:'f'},
+  {id:'elinor',name:'אלינור',group:'בנות',gender:'f'},
+  {id:'netaB',name:'נטע ב',group:"בנים א'",gender:'m'},
+  {id:'inbar',name:'ענבר',group:'בנות',gender:'f'},
+  {id:'naomi',name:'נעמי',group:'בנות',gender:'f'},
+  {id:'raz',name:'רז',group:'בנות',gender:'f'},
+  {id:'ariel',name:'ארייה',group:'בנות',gender:'f'},
+  {id:'ela',name:'אלה',group:'בנות',gender:'f'},
+  {id:'avishag',name:'אבישג',group:'בנות',gender:'f'},
+  {id:'lian',name:'ליאן',group:'בנות',gender:'f'},
+  {id:'agam',name:'אגם',group:'בנות',gender:'f'},
+  {id:'rotem',name:'רותם',group:"בנים א'",gender:'m'},
+  {id:'lior',name:'ליאור',group:"בנים א'",gender:'m'},
+  {id:'gleb',name:'גלב',group:"בנים א'",gender:'m'},
+  {id:'niv',name:'ניב',group:"בנים א'",gender:'m'},
+  {id:'netaA',name:'נטע ו',group:'בנות',gender:'f'},
+  {id:'magal',name:'מגל',group:"בנים א'",gender:'m'},
+  {id:'noamG',name:'נועם ג',group:"בנים א'",gender:'m'},
+  {id:'amir',name:'עמיר',group:"בנים ב'",gender:'m'},
+  {id:'avihu',name:'אביהו',group:"בנים ב'",gender:'m'},
+  {id:'imri',name:'אימרי',group:"בנים ב'",gender:'m'},
+  {id:'liorTz',name:'ליאור צ',group:"בנים ב'",gender:'m'},
+  {id:'alon',name:'אלון',group:"בנים ב'",gender:'m'},
+  {id:'ori',name:'אורי',group:"בנים ב'",gender:'m'},
+];
+const GROUPS=["בנות","בנים א'","בנים ב'"];
+const TECHNIQUES=['אימון אוטוגני','המהום','הרפיית שינה','הרפיית שרירים','עבודה עם הדאגות','עיסוי אוזן','נשימה ואגלית','קפיצה בחבל','ריקוד','ריצה','תרגיל SOS'];
+const INITIAL=[{id:'s-2026-04-23-sos1',date:'2026-04-23',technique:'טכניקת SOS1',measurements:{
+  liya:{rlxB:4,hrvB:47,rlxA:17,hrvA:53},elinor:{rlxB:7,hrvB:34,rlxA:18,hrvA:36},
+  netaB:{rlxB:6,hrvB:25,rlxA:27,hrvA:54},inbar:{rlxB:2,hrvB:23,rlxA:7,hrvA:38},
+  naomi:{rlxB:27,hrvB:35,rlxA:37,hrvA:57},raz:{rlxB:34,hrvB:41,rlxA:40,hrvA:34},
+  ariel:{rlxB:14,hrvB:39,rlxA:35,hrvA:60},ela:{rlxB:22,hrvB:40,rlxA:44,hrvA:51},
+  rotem:{rlxB:3,hrvB:27,rlxA:35,hrvA:57},lior:{rlxB:30,hrvB:49,rlxA:58,hrvA:59},
+  gleb:{rlxB:24,hrvB:32,rlxA:23,hrvA:41},niv:{rlxB:5,hrvB:15,rlxA:29,hrvA:41},
+  netaA:{rlxB:4,hrvB:39,rlxA:6,hrvA:41},amir:{rlxB:0,hrvB:3,rlxA:10,hrvA:32},
+  avihu:{rlxB:49,hrvB:63,rlxA:50,hrvA:64},imri:{rlxB:0,hrvB:2,rlxA:18,hrvA:43},
+  liorTz:{rlxB:3,hrvB:39,rlxA:6,hrvA:42},alon:{rlxB:6,hrvB:32,rlxA:9,hrvA:50},
+  ori:{rlxB:7,hrvB:12,rlxA:52,hrvA:44}
+}}];
+
+const state={sessions:INITIAL.slice(),entry:null,eidx:null};
+
+function g(st,m,f){return st.gender==='m'?m:f;}
+function cls(rlx,hrv){
+  if(rlx===''||rlx==null||hrv===''||hrv==null)return 'unknown';
+  const r=+rlx,h=+hrv;
+  // חלון הסובלנות (ירוק): HRV >= 45
+  if(h>=45)return 'stable';
+  // היפר-עוררות (אדום): HRV < 45 וגם RLX < 20
+  if(h<45&&r<20)return 'intervene';
+  // היפו-עוררות (צהוב): HRV < 45 וגם RLX >= 20
+  return 'attention';
+}
+function scoreCol(v){
+  // כחול עמוק = פנויה ללמידה, אפור = דורשת התערבות
+  if(v===null||v===undefined) return '#9CA3AF';
+  if(v>=4.5) return '#1E40AF';   // כחול עמוק — פנויה לגמרי
+  if(v>=3.5) return '#3B6FD4';   // כחול — מוכנה ברובה
+  if(v>=2.5) return '#6B8EC4';   // כחול-אפור — שימי לב
+  if(v>=1.5) return '#8A9BB8';   // אפור-כחלחל — ויסות מומלץ
+  return '#9CA3AF';               // אפור — התערבות דחופה
+}
+function scoreLabel(v){
+  if(v===null||v===undefined) return '';
+  if(v>=4) return 'שיפור מרשים — הכיתה פנויה ללמידה';
+  if(v>=2.5) return 'שיפור טוב ביחס לבסיס';
+  if(v>=1) return 'שיפור מסוים ביחס לבסיס';
+  if(v>=0) return 'ברמת הבסיס — כדאי לווסת';
+  return 'מתחת לבסיס — נדרש ויסות';
+}
+function clsLabel(c){return{stable:'בחלון הסבלנות',attention:'היפו-עוררות',intervene:'היפר-עוררות',unknown:'לא נמדד'}[c]||'לא נמדד';}
+function clsCol(c){return{stable:'var(--green)',attention:'var(--yellow)',intervene:'var(--red)',unknown:'var(--blue)'}[c]||'var(--blue)';}
+function clsCls(c){return{stable:'green',attention:'yellow',intervene:'red',unknown:'blue'}[c]||'blue';}
+function latestM(sid){
+  for(const s of state.sessions.slice().sort((a,b)=>b.date.localeCompare(a.date))){
+    const m=s.measurements[sid];
+    if(m&&m.rlxA!==''&&m.rlxA!=null)return{...m,date:s.date,tech:s.technique};
+  }return null;
+}
+function bestSess(){
+  if(!state.sessions.length)return null;
+  return state.sessions.slice().sort((a,b)=>b.date.localeCompare(a.date))[0];
+}
+function toLocalDate(d){var y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return y+'-'+m+'-'+day;}
+function nextDate(){
+  return toLocalDate(new Date());
+}
+function fmt(d){return new Date(d).toLocaleDateString('he-IL');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function initEntry(){
+  state._editingId=null;
+  state.entry={date:nextDate(),technique:TECHNIQUES[0],measurements:{}};
+  for(const st of STUDENTS)state.entry.measurements[st.id]={rlxB:'',hrvB:'',rlxA:'',hrvA:'',personalTech:null};
+}
+
+// NAV
+function switchView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.getElementById('nb-'+name).classList.add('active');
+  const sb=document.querySelector('.savebar');
+  if(sb) sb.style.display=name==='entry'?'flex':'none';
+  if(name==='dashboard') renderDash();
+  if(name==='entry'){
+    // אם אנחנו עורכים סבב — לא לאפס
+    if(!state._editingId) state.entry=null;
+    renderEntry();
+  }
+  if(name==='mutual') renderMutual();
+}
+
+// DASHBOARD
+function openClassView(){
+  const sess=bestSess();
+  document.getElementById('cv-sub').textContent=sess?'סבב: '+fmt(sess.date)+' · '+sess.technique:'אין מדידות';
+  const data=STUDENTS.map(st=>{const m=sess&&sess.measurements[st.id]&&sess.measurements[st.id].rlxA!==''&&sess.measurements[st.id].rlxA!=null?sess.measurements[st.id]:null;return{...st,m,c:m?cls(m.rlxA,m.hrvA):'unknown'};});
+  const sections=[
+    {key:'intervene',label:'היפר-עוררות',color:'var(--red)'},
+    {key:'stable',label:'בחלון הסבלנות',color:'var(--green)'},
+    {key:'attention',label:'היפו-עוררות',color:'var(--yellow)'},
+    {key:'unknown',label:'לא נמדד',color:'var(--blue)'},
+  ];
+  let html='';
+  for(const sec of sections){
+    const sts=data.filter(d=>d.c===sec.key);
+    if(!sts.length) continue;
+    html+='<div style="text-align:right;margin-bottom:6px;">';
+    html+=`<span style="font-size:11px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.7px;">${sec.label}</span> <span style="width:9px;height:9px;border-radius:50%;background:${sec.color};display:inline-block;vertical-align:middle;margin-right:4px;"></span>`;
+    html+='</div>';
+    html+='<div style="text-align:right;margin-bottom:16px;">';
+    for(const st of sts){
+      html+=`<button class="bbl ${clsCls(st.c)}" onclick="closeClassView();openDetail('${st.id}')" style="width:70px;height:70px;font-size:12px;display:inline-block;margin:0 0 8px 8px;vertical-align:top;">${st.name.split(' ')[0]}</button>`;
+    }
+    html+='</div>';
+  }
+  document.getElementById('cv-content').innerHTML='<div style="direction:rtl;">'+html+'</div>';
+  document.getElementById('cvovl').classList.add('open');
+}
+function closeClassView(e){if(!e||e.target===document.getElementById('cvovl'))document.getElementById('cvovl').classList.remove('open');}
+
+// HRV BY TECHNIQUE DETAIL
+function openHrvTechDetail(){
+  const HRV_BASE=33;
+  const techData={};
+  for(const s of state.sessions){
+    const tech=s.technique||'לא ידוע';
+    if(!techData[tech])techData[tech]=[];
+    const ms=Object.values(s.measurements||{}).filter(m=>m.hrvA!==''&&m.hrvA!=null);
+    ms.forEach(m=>techData[tech].push(+m.hrvA));
+  }
+  let html=`<div style="direction:rtl;padding:16px;">`;
+  html+=`<div style="font-size:16px;font-weight:800;color:#2563EB;margin-bottom:6px;">שיפור ביכולת ההתאוששות לפי טכניקה</div>`;
+  html+=`<div style="font-size:11px;color:var(--soft);margin-bottom:20px;">בסיס לפני תרגול: ${HRV_BASE} | ממוצע כל הסבבים</div>`;
+  html+=`<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;">`;
+  Object.keys(techData).forEach(function(tech){
+    var vals=techData[tech];
+    var avg=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length);
+    var pct=Math.round((avg-HRV_BASE)/HRV_BASE*100);
+    var col=pct>=30?'#2563EB':pct>=15?'#60A5FA':'#93C5FD';
+    var dashoffset=Math.max(0,183-(183*Math.min(pct,100)/100));
+    html+='<div style="text-align:center;">'
+      +'<div style="position:relative;width:80px;height:80px;margin:0 auto;">'
+      +'<svg width="80" height="80" viewBox="0 0 80 80">'
+      +'<circle cx="40" cy="40" r="29" fill="none" stroke="#E8E8E4" stroke-width="8"/>'
+      +'<circle cx="40" cy="40" r="29" fill="none" stroke="'+col+'" stroke-width="8" stroke-linecap="round" stroke-dasharray="183" stroke-dashoffset="'+dashoffset+'" transform="rotate(-90 40 40)"/>'
+      +'</svg>'
+      +'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">'
+      +'<div style="font-size:14px;font-weight:900;color:'+col+';">'+( pct>0?'+':'')+pct+'%</div>'
+      +'</div></div>'
+      +'<div style="font-size:10px;color:var(--soft);margin-top:6px;font-weight:600;max-width:70px;">'+tech+'</div>'
+      +'<div style="font-size:10px;color:var(--soft);">ממוצע '+avg+'</div>'
+      +'</div>';
+  });
+  html+=`</div></div>`;
+  document.getElementById('cv-sub').textContent='שיפור ביכולת ההתאוששות לפי טכניקה';
+  document.getElementById('cv-content').innerHTML=html;
+  document.getElementById('cvovl').classList.add('open');
+}
+
+// IMPROVEMENT DETAIL POPUP
+function openImprovDetail(type){
+  const sortedSess=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const firstRlx={},firstHrv={},allRlx={},allHrv={};
+  for(const s of sortedSess){
+    for(const st of STUDENTS){
+      const m=s.measurements[st.id];
+      if(!m)continue;
+      if(!(st.id in firstRlx)){
+        if(m.rlxB!==''&&m.rlxB!=null){firstRlx[st.id]=+m.rlxB;firstHrv[st.id]=+m.hrvB;}
+        else if(m.rlxA!==''&&m.rlxA!=null){firstRlx[st.id]=+m.rlxA;firstHrv[st.id]=+m.hrvA;}
+      }
+      if(m.rlxA!==''&&m.rlxA!=null){
+        if(!allRlx[st.id])allRlx[st.id]=[];
+        if(!allHrv[st.id])allHrv[st.id]=[];
+        allRlx[st.id].push(+m.rlxA);
+        allHrv[st.id].push(+m.hrvA);
+      }
+    }
+  }
+  const improved=[],notImproved=[];
+  for(const st of STUDENTS){
+    if(!(st.id in firstRlx)||!allRlx[st.id])continue;
+    const avgRlx=allRlx[st.id].reduce((a,b)=>a+b,0)/allRlx[st.id].length;
+    const avgHrv=allHrv[st.id].reduce((a,b)=>a+b,0)/allHrv[st.id].length;
+    const diff=type==='rlx'?avgRlx-firstRlx[st.id]:avgHrv-firstHrv[st.id];
+    if(diff>0)improved.push(st.name.split(' ')[0]);
+    else notImproved.push(st.name.split(' ')[0]);
+  }
+  const col=type==='rlx'?'#7C3AED':'#2563EB';
+  const label=type==='rlx'?'RLX':'HRV';
+  let html=`<div style="direction:rtl;padding:16px;">`;
+  html+=`<div style="font-size:16px;font-weight:800;color:${col};margin-bottom:16px;">שיפור ${label}</div>`;
+  html+=`<div style="font-size:12px;color:var(--soft);font-weight:700;margin-bottom:8px;">שיפרו (${improved.length})</div>`;
+  html+=`<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">`;
+  improved.forEach(n=>{const sid=STUDENTS.find(s=>s.name.split(' ')[0]===n)?.id;html+=`<span style="background:${col};color:#fff;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;" onclick="closeClassView();if('${sid}')openDetail('${sid}')">${n}</span>`;});
+  html+=`</div>`;
+  html+=`<div style="font-size:12px;color:var(--soft);font-weight:700;margin-bottom:8px;">לא שיפרו (${notImproved.length})</div>`;
+  html+=`<div style="display:flex;flex-wrap:wrap;gap:6px;">`;
+  notImproved.forEach(n=>{const sid=STUDENTS.find(s=>s.name.split(' ')[0]===n)?.id;html+=`<span style="background:#E8E8E4;color:var(--dark);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;" onclick="closeClassView();if('${sid}')openDetail('${sid}')">${n}</span>`;});
+  html+=`</div></div>`;
+  document.getElementById('cv-sub').textContent='התקדמות '+label+' מאז תחילת הפרויקט';
+  document.getElementById('cv-content').innerHTML=html;
+  document.getElementById('cvovl').classList.add('open');
+}
+
+function renderDash(){
+  const sess=bestSess();
+  const measuredCount=Object.values(sess?.measurements||{}).filter(m=>m.rlxA!==''&&m.rlxA!=null).length;
+  document.getElementById('dsub').textContent=sess?fmt(sess.date)+' · '+sess.technique+' · '+measuredCount+' ילדים':'סבב אחרון';
+  const data=STUDENTS.map(st=>{const m=sess&&sess.measurements[st.id]&&sess.measurements[st.id].rlxA!==''&&sess.measurements[st.id].rlxA!=null?sess.measurements[st.id]:null;return{...st,m,c:m?cls(m.rlxA,m.hrvA):'unknown'};});
+  const measured=data.filter(d=>d.c!=='unknown');
+  const nG=measured.filter(d=>d.c==='stable').length,nY=measured.filter(d=>d.c==='attention').length,nR=measured.filter(d=>d.c==='intervene').length;
+  document.getElementById('stat-hyper').textContent=nR;
+  document.getElementById('stat-stable').textContent=nG;
+  document.getElementById('stat-hypo').textContent=nY;
+  // Progress vs baseline (23/4 rlxB/hrvB)
+  const firstSess=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date))[0];
+  const baseMeas=firstSess?.measurements||{};
+  let improvedCount=0,rlxDiffs=[],hrvDiffs=[];
+  for(const st of STUDENTS){
+    const base=baseMeas[st.id];
+    if(!base||base.rlxB===''||base.rlxB==null)continue;
+    // Find best rlxA and hrvA across all sessions
+    let bestRlx=+base.rlxB,bestHrv=+base.hrvB;
+    for(const s of state.sessions){
+      const m=s.measurements[st.id];
+      if(!m)continue;
+      if(m.rlxA!==''&&m.rlxA!=null&&+m.rlxA>bestRlx)bestRlx=+m.rlxA;
+      if(m.hrvA!==''&&m.hrvA!=null&&+m.hrvA>bestHrv)bestHrv=+m.hrvA;
+    }
+    const rlxDiff=bestRlx-(+base.rlxB);
+    const hrvDiff=bestHrv-(+base.hrvB);
+    if(rlxDiff>0||hrvDiff>0)improvedCount++;
+    if(rlxDiff>0)rlxDiffs.push(rlxDiff);
+    if(hrvDiff>0)hrvDiffs.push(hrvDiff);
+  }
+  // Personal baseline = first measurement per student, compare to average of all
+  const firstRlx={},firstHrv={},allRlxD={},allHrvD={};
+  const sortedSess=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  for(const s of sortedSess){
+    for(const st of STUDENTS){
+      const m=s.measurements[st.id];
+      if(!m)continue;
+      if(!(st.id in firstRlx)){
+        if(m.rlxB!==''&&m.rlxB!=null){firstRlx[st.id]=+m.rlxB;firstHrv[st.id]=+m.hrvB;}
+        else if(m.rlxA!==''&&m.rlxA!=null){firstRlx[st.id]=+m.rlxA;firstHrv[st.id]=+m.hrvA;}
+      }
+      if(m.rlxA!==''&&m.rlxA!=null){
+        if(!allRlxD[st.id])allRlxD[st.id]=[];
+        if(!allHrvD[st.id])allHrvD[st.id]=[];
+        allRlxD[st.id].push(+m.rlxA);
+        allHrvD[st.id].push(+m.hrvA);
+      }
+    }
+  }
+  let rlxImproved=0,hrvImproved=0,totalTracked=0;
+  for(const st of STUDENTS){
+    if(!(st.id in firstRlx)||!allRlxD[st.id])continue;
+    totalTracked++;
+    const avgRlx=allRlxD[st.id].reduce((a,b)=>a+b,0)/allRlxD[st.id].length;
+    const avgHrv=allHrvD[st.id].reduce((a,b)=>a+b,0)/allHrvD[st.id].length;
+    if(avgRlx>firstRlx[st.id])rlxImproved++;
+    if(avgHrv>firstHrv[st.id])hrvImproved++;
+  }
+  // HRV baseline = 33 (average before any intervention on 23/4)
+  const HRV_BASE = 33;
+  const HRV_MAX = 100;
+  // Calculate average HRV across all sessions
+  let totalHrv=0,countHrv=0;
+  for(const s of state.sessions){
+    const ms=Object.values(s.measurements||{}).filter(m=>m.hrvA!==''&&m.hrvA!=null);
+    ms.forEach(m=>{totalHrv+=(+m.hrvA);countHrv++;});
+  }
+  const avgHrvAll=countHrv?totalHrv/countHrv:HRV_BASE;
+  const hrvPctImprove=Math.round((avgHrvAll-HRV_BASE)/HRV_BASE*100);
+  document.getElementById('avg-hrv-improve').textContent=(hrvPctImprove>0?'+':'')+hrvPctImprove+'%';
+  setTimeout(()=>{
+    const hrvArc=document.getElementById('hrv-arc');
+    if(hrvArc){
+      const pct=Math.max(0,Math.min(100,hrvPctImprove));
+      hrvArc.style.strokeDashoffset=339-(339*pct/100);
+    }
+  },200);
+  // Calculate baseline from first session with "before" data
+  const sessionsWithBefore=state.sessions.filter(s=>Object.values(s.measurements||{}).some(m=>m.rlxB!==''&&m.rlxB!=null)).sort((a,b)=>a.date.localeCompare(b.date));
+  let baseline=0.26;
+  if(sessionsWithBefore.length>0){
+    const bs=sessionsWithBefore[0];
+    const bms=Object.values(bs.measurements||{}).filter(m=>m.rlxB!==''&&m.rlxB!=null);
+    const bStable=bms.filter(m=>cls(+m.rlxB,+m.hrvB)==='stable').length;
+    baseline=bms.length?bStable/bms.length:0.26;
+  }
+  // Average % in window across all sessions
+  const allSessions=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const sessionScores=allSessions.map(s=>{
+    const ms=Object.values(s.measurements||{}).filter(m=>m.rlxA!==''&&m.rlxA!=null);
+    if(!ms.length)return null;
+    const nS=ms.filter(m=>cls(+m.rlxA,+m.hrvA)==='stable').length;
+    return nS/ms.length;
+  }).filter(v=>v!==null);
+  const avgPct=sessionScores.length?sessionScores.reduce((a,b)=>a+b,0)/sessionScores.length:null;
+  const scoreVal=avgPct!==null?Math.round(((avgPct-baseline)/(1-baseline)*5)*10)/10:null;
+  // Still use current session data for student display
+  const scored = data.filter(d=>d.c!=='unknown');
+  const nStable = scored.filter(d=>d.c==='stable').length;
+  const scoreDisplay = scoreVal !== null ? scoreVal.toFixed(1) : '—';
+  const scoreColor = scoreCol(scoreVal);
+  document.getElementById('score-num').textContent = scoreDisplay;
+  const lbl=document.getElementById('score-label');
+  if(lbl) lbl.textContent=scoreVal!==null?scoreLabel(scoreVal):'';
+  if(lbl) lbl.style.color=scoreColor;
+  document.getElementById('score-num').style.color = scoreColor;
+  const arc = document.getElementById('score-arc');
+  arc.style.stroke = scoreColor;
+  const pct = scoreVal !== null ? scoreVal/5 : 0;
+  setTimeout(()=>{ arc.style.strokeDashoffset = 527 - (527 * pct); }, 100);
+  const urg=data.filter(d=>d.c==='intervene');
+  document.getElementById('uw').innerHTML=urg.length?`<div class="urg"><div class="up"></div>${urg.map(d=>d.name.split(' ')[0]).join(' · ')} — היפר-עוררות</div>`:'';
+  setTimeout(()=>{
+    const canvas=document.getElementById('class-chart');
+    if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    const sorted=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date));
+    if(sorted.length<1)return;
+    canvas.width=(canvas.offsetWidth||300)*window.devicePixelRatio;
+    canvas.height=220*window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
+    const W=canvas.offsetWidth||300,H=220,PAD=36,BOTTOM=28,RIGHT=10;
+    const points=sorted.map(s=>{
+      const ms=Object.values(s.measurements||{}).filter(m=>m.rlxA!==''&&m.rlxA!=null);
+      const scored=ms.map(m=>cls(m.rlxA,m.hrvA));
+      const nStable=scored.filter(c=>c==='stable').length;
+      const pct=ms.length?Math.round(nStable/ms.length*100):null;
+      return{date:fmt(s.date),score:pct,tech:s.technique,n:ms.length,nStable};
+    }).filter(p=>p.score!==null);
+    if(points.length<1)return;
+    const chartW=W-PAD-RIGHT,chartH=H-BOTTOM-8;
+    const barW=Math.min(40,Math.floor(chartW/points.length*0.6));
+    const gap=chartW/points.length;
+    const toY=v=>8+(1-v/100)*chartH;
+    const barX=i=>PAD+i*gap+gap/2-barW/2;
+    // grid lines + y labels
+    ctx.strokeStyle='rgba(26,26,46,0.06)';ctx.lineWidth=1;
+    [0,25,50,75,100].forEach(v=>{
+      const y=toY(v);
+      ctx.beginPath();ctx.moveTo(PAD,y);ctx.lineTo(W-RIGHT,y);ctx.stroke();
+      ctx.fillStyle='rgba(107,114,128,0.7)';ctx.font='10px Heebo,sans-serif';ctx.textAlign='right';
+      ctx.fillText(v+'%',PAD-4,y+3);
+    });
+    // bars
+    points.forEach((p,i)=>{
+      const col=scoreCol(p.score);
+      const x=barX(i),y=toY(p.score),bh=H-BOTTOM-y;
+      // bar fill with rounded top
+      ctx.fillStyle=col;
+      ctx.beginPath();
+      ctx.roundRect(x,y,barW,bh,{upperLeft:4,upperRight:4,lowerLeft:0,lowerRight:0});
+      ctx.fill();
+      // subtle inner highlight
+      ctx.fillStyle='rgba(255,255,255,0.2)';
+      ctx.fillRect(x+2,y+2,barW/2-2,Math.min(8,bh-4));
+      // score label above bar
+      ctx.fillStyle='rgba(26,26,46,0.85)';ctx.font='bold 10px Heebo,sans-serif';ctx.textAlign='center';
+      ctx.fillText(p.score+'%',x+barW/2,Math.max(y-4,12));
+      // date label below
+      ctx.fillStyle='rgba(107,114,128,0.85)';ctx.font='9px Heebo,sans-serif';
+      const shortDate=p.date.slice(0,5);
+      ctx.fillText(shortDate,x+barW/2,H-6);
+    });
+    // click handler on bars
+    canvas.onclick=function(e){
+      const rect=canvas.getBoundingClientRect();
+      const mx=(e.clientX-rect.left)*(canvas.width/rect.width)/window.devicePixelRatio;
+      for(let i=0;i<points.length;i++){
+        const x=barX(i);
+        if(mx>=x&&mx<=x+barW){showSessionDetail(sorted[i]);return;}
+      }
+    };
+    canvas.style.cursor='pointer';
+  },100);
+  setTimeout(renderBaselineChart,150);
+}
+
+// SESSION DETAIL POPUP
+function showSessionDetail(sess){
+  const cats={stable:{label:'בחלון הסבלנות',col:'var(--green)'},attention:{label:'היפו-עוררות',col:'var(--yellow)'},intervene:{label:'היפר-עוררות',col:'var(--red)'},unknown:{label:'לא נמדד',col:'var(--blue)'}};
+  let html=`<div style="text-align:right;padding:16px;direction:rtl;">`;
+  html+=`<div style="font-size:15px;font-weight:800;margin-bottom:4px;">${fmt(sess.date)}</div>`;
+  html+=`<div style="font-size:12px;color:var(--soft);margin-bottom:16px;">${sess.technique||''}</div>`;
+  for(const [key,cat] of Object.entries(cats)){
+    const students=STUDENTS.filter(st=>{
+      const m=sess.measurements[st.id];
+      if(!m||m.rlxA===''||m.rlxA==null)return key==='unknown';
+      return cls(m.rlxA,m.hrvA)===key;
+    });
+    if(!students.length)continue;
+    html+=`<div style="margin-bottom:12px;">`;
+    html+=`<div style="font-size:11px;font-weight:800;color:var(--soft);margin-bottom:6px;">${cat.label}</div>`;
+    html+=`<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;">`;
+    for(const st of students){
+      html+=`<span style="background:${cat.col};color:#fff;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:700;">${st.name.split(' ')[0]}</span>`;
+    }
+    html+=`</div></div>`;
+  }
+  html+=`</div>`;
+  document.getElementById('cv-sub').textContent=fmt(sess.date)+' · '+sess.technique;
+  document.getElementById('cv-content').innerHTML=html;
+  document.getElementById('cvovl').classList.add('open');
+}
+
+// BASELINE PROGRESS CHART
+function renderBaselineChart(){
+  const canvas=document.getElementById('baseline-chart');
+  if(!canvas)return;
+  // Find sessions with "before" data (rlxB)
+  const sessionsWithBefore=state.sessions.filter(s=>{
+    return Object.values(s.measurements||{}).some(m=>m.rlxB!==''&&m.rlxB!=null);
+  }).sort((a,b)=>a.date.localeCompare(b.date));
+  if(sessionsWithBefore.length<1){canvas.style.display='none';return;}
+  canvas.style.display='block';
+  const ctx=canvas.getContext('2d');
+  canvas.width=(canvas.offsetWidth||300)*window.devicePixelRatio;
+  canvas.height=180*window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
+  const W=canvas.offsetWidth||300,H=180,PAD=36,BOTTOM=28,RIGHT=10;
+  // Calculate average rlxB per session
+  const points=sessionsWithBefore.map(s=>{
+    const ms=Object.values(s.measurements||{}).filter(m=>m.rlxB!==''&&m.rlxB!=null);
+    const avg=ms.reduce((sum,m)=>sum+(+m.rlxB),0)/ms.length;
+    return{date:s.date,avg:Math.round(avg*10)/10,n:ms.length};
+  });
+  const baseline=points[0].avg;
+  const maxVal=Math.max(100,Math.max(...points.map(p=>p.avg))*1.2);
+  const chartW=W-PAD-RIGHT,chartH=H-BOTTOM-8;
+  const barW=Math.min(40,Math.floor(chartW/points.length*0.6));
+  const gap=chartW/points.length;
+  const toY=v=>8+(1-v/maxVal)*chartH;
+  const barX=i=>PAD+i*gap+gap/2-barW/2;
+  // grid lines
+  ctx.strokeStyle='rgba(26,26,46,0.06)';ctx.lineWidth=1;
+  [0,25,50,75,100].forEach(v=>{
+    if(v>maxVal)return;
+    const y=toY(v);
+    ctx.beginPath();ctx.moveTo(PAD,y);ctx.lineTo(W-RIGHT,y);ctx.stroke();
+    ctx.fillStyle='rgba(107,114,128,0.7)';ctx.font='10px Heebo,sans-serif';ctx.textAlign='right';
+    ctx.fillText(v,PAD-4,y+3);
+  });
+  // baseline reference line
+  const baseY=toY(baseline);
+  ctx.strokeStyle='rgba(91,122,250,0.4)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(PAD,baseY);ctx.lineTo(W-RIGHT,baseY);ctx.stroke();
+  ctx.setLineDash([]);
+  // bars
+  points.forEach((p,i)=>{
+    const improved=p.avg>=baseline;
+    const col=improved?'#27AE72':'#C0392B';
+    const x=barX(i),y=toY(p.avg),bh=H-BOTTOM-y;
+    ctx.fillStyle=col;
+    ctx.beginPath();
+    ctx.roundRect(x,y,barW,bh,{upperLeft:4,upperRight:4,lowerLeft:0,lowerRight:0});
+    ctx.fill();
+    ctx.fillStyle='rgba(26,26,46,0.85)';ctx.font='bold 10px Heebo,sans-serif';ctx.textAlign='center';
+    ctx.fillText(p.avg.toFixed(0),x+barW/2,Math.max(y-4,12));
+    ctx.fillStyle='rgba(107,114,128,0.85)';ctx.font='9px Heebo,sans-serif';
+    const shortDate=p.date.slice(8,10)+'.'+p.date.slice(5,7);
+    ctx.fillText(shortDate,x+barW/2,H-6);
+  });
+}
+
+// BEST TECHNIQUE ANALYSIS
+function bestTech(sid){
+  // For each session, check if student reached stable window (including extraTechs)
+  const techStats={};
+  function addToStats(tech,m_after_rlx,m_after_hrv,m_before_rlx,m_before_hrv){
+    if(!techStats[tech]) techStats[tech]={stable:0,total:0,rlxGain:0,hrvGain:0};
+    techStats[tech].total++;
+    const c=cls(m_after_rlx,m_after_hrv);
+    if(c==='stable') techStats[tech].stable++;
+    if(m_before_rlx!=null&&m_before_rlx!=='') techStats[tech].rlxGain+=(+m_after_rlx-+m_before_rlx);
+    if(m_before_hrv!=null&&m_before_hrv!=='') techStats[tech].hrvGain+=(+m_after_hrv-+m_before_hrv);
+  }
+  for(const s of state.sessions){
+    const m=s.measurements[sid];
+    if(!m||m.rlxA===''||m.rlxA==null||m.hrvA===''||m.hrvA==null) continue;
+    const tech=s.technique||'לא ידוע';
+    const effectiveTech=m.personalTech||tech;
+    addToStats(effectiveTech,m.rlxA,m.hrvA,m.rlxB,m.hrvB);
+    // Skip baseline-only measurements for technique effectiveness
+    if((m.personalTech||tech)==='מדידה ללא תרגול') continue;
+    // Also count extra techs
+    if(m.extraTechs&&m.extraTechs.length){
+      for(const et of m.extraTechs){
+        if(et.rlxA===''||et.rlxA==null||et.hrvA===''||et.hrvA==null) continue;
+        addToStats(et.tech||'לא ידוע',et.rlxA,et.hrvA,et.rlxB,et.hrvB);
+      }
+    }
+  }
+  const techs=Object.keys(techStats);
+  if(!techs.length) return null;
+  // Sort: first by stable count, then by combined RLX+HRV gain
+  techs.sort((a,b)=>{
+    const sa=techStats[a],sb=techStats[b];
+    if(sb.stable!==sa.stable) return sb.stable-sa.stable;
+    const gainA=(sa.rlxGain+sa.hrvGain)/sa.total;
+    const gainB=(sb.rlxGain+sb.hrvGain)/sb.total;
+    return gainB-gainA;
+  });
+  const best=techs[0],bs=techStats[best];
+  return{tech:best,stable:bs.stable,total:bs.total,rlxGain:Math.round(bs.rlxGain/bs.total),hrvGain:Math.round(bs.hrvGain/bs.total),allStats:techStats};
+}
+
+// DETAIL SHEET
+function openDetail(sid){
+  const st=STUDENTS.find(s=>s.id===sid),m=latestM(sid);
+  const c=m?cls(m.rlxA,m.hrvA):'unknown',col=clsCol(c);
+  let metrics='';
+  if(m){
+    const dR=m.rlxB!=null&&m.rlxB!==''?+m.rlxA-+m.rlxB:null;
+    const dH=m.hrvB!=null&&m.hrvB!==''?+m.hrvA-+m.hrvB:null;
+    const arR=dR==null?'—':dR>0?`↑ +${dR}`:dR<0?`↓ ${dR}`:'→';
+    const arH=dH==null?'—':dH>0?`↑ +${dH}`:dH<0?`↓ ${dH}`:'→';
+    metrics=`<div class="dm"><div class="dmi"><div class="dml">RLX לפני → אחרי</div><div class="dmv">${m.rlxB??'—'} ← ${m.rlxA}</div></div><div class="dmi"><div class="dml">HRV לפני → אחרי</div><div class="dmv">${m.hrvB??'—'} ← ${m.hrvA}</div></div></div>`;
+  }
+  // זיהוי שריון פיזי: RLX נמוך מאוד (<10) אך HRV מעל 25
+  const isPhysicalArmor = m && +m.rlxA < 10 && +m.hrvA >= 25;
+  let analysis=!m?'אין מדידות עדיין.':
+    c==='stable'?`${st.name} ${g(st,'נמצא','נמצאת')} בחלון הסבלנות ו${g(st,'פנוי','פנויה')} ללמידה.`:
+    isPhysicalArmor?`שריון פיזי — הגוף מכווץ ומתוח אך הוואגוס מתאמץ לווסת. ה-RLX נמוך מאוד למרות HRV תקין.`:
+    m&&+m.rlxA<6?`${st.name} במצב הישרדות. המוח הרציונלי ${g(st,'שלו','שלה')} מנותק כרגע.`:
+    c==='attention'?'ניכר דפוס של היפו-עוררות. מומלץ PMR לפני משימות.':
+    `${st.name} מחוץ לחלון הסבלנות. מומלץ ויסות לפני למידה.`;
+  let rec='',rb='';
+  if(m&&+m.rlxA<6){rb='var(--rl)';rec='<div class="drt">SOS1 — דחוף</div><div class="drb">סקווט כנגד הקיר 10 שניות + ניעור ידיים חזק.</div>';}
+  else if(m&&isPhysicalArmor){rb='var(--yl)';rec='<div class="drt">שריון פיזי — PMR</div><div class="drb">כיווץ ושחרור שרירים אקטיבי — ללמד את הגוף להרפות. אין לתת הרפיה פסיבית!</div>';}
+  else if(m&&c==='attention'){rb='var(--yl)';rec='<div class="drt">PMR — היפו-עוררות</div><div class="drb">כיווץ ושחרור שרירים לפני משימות.</div>';}
+  else if(m&&c==='intervene'){rb='var(--yl)';rec='<div class="drt">קרקוע</div><div class="drb">3 חפצים צבעוניים + לחיצת כפות רגליים לרצפה.</div>';}
+  else if(m){rb='var(--gl)';rec=`<div class="drt">${g(st,'מוכן','מוכנה')} ללמידה</div><div class="drb">ניתן לשלב כעוגן לוויסות הדדי.</div>`;}
+  // best technique block
+  const bt=bestTech(sid);
+  let bestTechHtml='';
+  if(bt&&bt.total>=1){
+    const stableRate=bt.total>0?Math.round(bt.stable/bt.total*100):0;
+    const gainStr=(bt.rlxGain>=0?'+':'')+bt.rlxGain+' RLX · '+(bt.hrvGain>=0?'+':'')+bt.hrvGain+' HRV';
+    const bgColor=bt.stable>0?'var(--gl)':'var(--yl)';
+    const icon=bt.stable>0?'':'';
+    bestTechHtml=`<div style="background:${bgColor};border-radius:var(--r);padding:14px 16px;margin-bottom:16px;">
+      <div style="font-size:12px;font-weight:700;color:var(--soft);margin-bottom:6px;">הטכניקה הכי אפקטיבית</div>
+      <div style="font-size:16px;font-weight:800;margin-bottom:6px;">${icon} ${bt.tech}</div>
+      <div style="font-size:12px;color:var(--soft);font-weight:600;">${bt.stable>0?`הגיע/ה לחלון הסבלנות ב-${bt.stable} מתוך ${bt.total} סבבים (${stableRate}%) · ממוצע: ${gainStr}`:`לא הגיע/ה לחלון — שיפור ממוצע: ${gainStr}`}</div>
+    </div>`;
+  }
+  // Personal baseline for this student
+  const sortedSessD=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  let baseRlx=null,baseHrv=null;
+  let lastRlx=null,lastHrv=null;
+  const allRlxSt=[],allHrvSt=[];
+  for(const s of sortedSessD){
+    const ms=s.measurements[sid];
+    if(!ms)continue;
+    if(ms.rlxB!==''&&ms.rlxB!=null){if(baseRlx===null){baseRlx=+ms.rlxB;baseHrv=+ms.hrvB;}lastRlx=+ms.rlxB;lastHrv=+ms.hrvB;}
+    if(ms.rlxA!==''&&ms.rlxA!=null){allRlxSt.push(+ms.rlxA);allHrvSt.push(+ms.hrvA);}
+  }
+  const avgRlxSt=allRlxSt.length?allRlxSt.reduce((a,b)=>a+b,0)/allRlxSt.length:null;
+  const avgHrvSt=allHrvSt.length?allHrvSt.reduce((a,b)=>a+b,0)/allHrvSt.length:null;
+  const rlxPctD=(baseRlx!==null&&lastRlx!==null&&lastRlx!==baseRlx)?Math.max(-100,Math.min(100,Math.round((lastRlx-baseRlx)/(100-baseRlx)*100))):null;
+  const hrvPctD=(baseHrv!==null&&lastHrv!==null&&lastHrv!==baseHrv)?Math.max(-100,Math.min(100,Math.round((lastHrv-baseHrv)/(100-baseHrv)*100))):null;
+  const circlesHtml=`<div style="background:var(--white);border-radius:var(--r);padding:16px;margin-bottom:16px;text-align:center;">
+    <div style="font-size:12px;color:var(--soft);font-weight:600;margin-bottom:4px;">מגמה לאורך זמן</div>
+    <div style="font-size:10px;color:var(--soft);margin-bottom:14px;opacity:.7;">לחצי על עיגול לגרף מפורט</div>
+    <div style="display:flex;justify-content:center;gap:24px;">
+      <div style="text-align:center;cursor:pointer;" onclick="openStudentChart('${sid}','rlx')">
+        <div style="position:relative;width:90px;height:90px;margin:0 auto;">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="37" fill="none" stroke="#E8E8E4" stroke-width="8"/>
+            <circle cx="45" cy="45" r="37" fill="none" stroke="#7C3AED" stroke-width="8" stroke-linecap="round" stroke-dasharray="233" stroke-dashoffset="${rlxPctD!==null?233-(233*rlxPctD/100):233}" transform="rotate(-90 45 45)" style="transition:stroke-dashoffset 1s ease"/>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:18px;font-weight:900;color:#7C3AED;">${rlxPctD!==null?(rlxPctD>=0?'+':'')+rlxPctD+'%':'—'}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--soft);margin-top:6px;font-weight:600;">מגמת RLX</div>
+      </div>
+      <div style="text-align:center;cursor:pointer;" onclick="openStudentChart('${sid}','hrv')">
+        <div style="position:relative;width:90px;height:90px;margin:0 auto;">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="37" fill="none" stroke="#E8E8E4" stroke-width="8"/>
+            <circle cx="45" cy="45" r="37" fill="none" stroke="#2563EB" stroke-width="8" stroke-linecap="round" stroke-dasharray="233" stroke-dashoffset="${hrvPctD!==null?233-(233*hrvPctD/100):233}" transform="rotate(-90 45 45)" style="transition:stroke-dashoffset 1s ease"/>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:18px;font-weight:900;color:#2563EB;">${hrvPctD!==null?(hrvPctD>=0?'+':'')+hrvPctD+'%':'—'}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--soft);margin-top:6px;font-weight:600;">מגמת HRV</div>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('dcnt').innerHTML=`<div class="dh"><div class="db" style="background:${col}"></div><div><div class="dn">${st.name}</div><div class="ds">${clsLabel(c)}${m?` · RLX ${m.rlxA} · HRV ${m.hrvA}`:''}</div></div></div>${metrics}<p class="dan">${analysis}</p>${rec?`<div class="drec" style="background:${rb}">${rec}</div>`:''}${circlesHtml}${bestTechHtml}<button class="dcl" onclick="closeDSheet()">סגירה</button>`;
+
+  document.getElementById('dovl').classList.add('open');
+}
+function closeDSheet(e){if(!e||e.target===document.getElementById('dovl'))document.getElementById('dovl').classList.remove('open');}
+
+// ENTRY
+function filterStudents(query){
+  const q=query.trim();
+  document.querySelectorAll('#elist .ei').forEach(el=>{
+    const name=el.getAttribute('data-name')||'';
+    el.style.display=(!q||name.includes(q))?'':'none';
+  });
+  // מסתירה כותרות קבוצה ריקות
+  document.querySelectorAll('#elist .gll').forEach(grpEl=>{
+    let next=grpEl.nextElementSibling;
+    let hasVisible=false;
+    while(next&&!next.classList.contains('gll')){
+      if(next.style.display!=='none') hasVisible=true;
+      next=next.nextElementSibling;
+    }
+    grpEl.style.display=hasVisible?'':'none';
+  });
+}
+
+function renderEntry(){
+  const sq=document.getElementById('student-search');
+  if(sq) sq.value='';
+  const sb=document.querySelector('.savebar');
+  if(sb) sb.style.display='flex';
+  if(!state.entry)initEntry();
+  document.getElementById('edate').value=state.entry.date;
+  document.getElementById('etech').innerHTML=`<option value="מדידה ללא תרגול" ${state.entry.technique==="מדידה ללא תרגול"?'selected':''}>⊘ מדידה ללא תרגול</option>`+TECHNIQUES.map(t=>`<option ${t===state.entry.technique?'selected':''}>${t}</option>`).join('');
+  document.getElementById('edate').onchange=e=>{state.entry.date=e.target.value;};
+  document.getElementById('etech').onchange=e=>{state.entry.technique=e.target.value;};
+  renderEList();
+  renderSavedSessions();
+}
+
+function renderSavedSessions(){
+  const el=document.getElementById('saved-sessions-list');
+  if(!el)return;
+  const sorted=state.sessions.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  if(!sorted.length){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--soft);font-size:13px;">אין סבבים שמורים עדיין</div>';return;}
+  el.innerHTML=sorted.map(s=>{
+    const count=Object.values(s.measurements||{}).filter(m=>m.rlxA!==''&&m.rlxA!=null).length;
+    return `<div class="sess-card">
+      <div class="sess-top">
+        <div><div class="sess-date">${fmt(s.date)}</div><div class="sess-tech">${s.technique||'—'}</div></div>
+        <div class="sess-count">${count} תלמידים</div>
+      </div>
+      <div class="sess-btns">
+        <button class="sess-edit" onclick="editSession('${s.id}')"> ערוך</button>
+        <button class="sess-del" onclick="deleteSession('${s.id}')"> מחק</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function editSession(sid){
+  const sess=state.sessions.find(s=>s.id===sid);
+  if(!sess) return;
+  // טוענים נתונים לפני המעבר
+  state.entry={date:sess.date,technique:sess.technique||TECHNIQUES[0],measurements:{}};
+  for(const st of STUDENTS){
+    const m=sess.measurements?.[st.id];
+    state.entry.measurements[st.id]=m?{...m}:{rlxB:'',hrvB:'',rlxA:'',hrvA:'',personalTech:null,extraTechs:[]};
+  }
+  state._editingId=sid;
+  // מעבר למסך הזנה
+  switchView('entry');
+  // גלול למעלה
+  window.scrollTo(0,0);
+  toast('עורכת את הסבב מ-'+fmt(sess.date));
+}
+
+function deleteSession(sid){
+  if(!confirm('למחוק את הסבב הזה לצמיתות?'))return;
+  state.sessions=state.sessions.filter(s=>s.id!==sid);
+  // מחיקה מ-Firebase
+  if(window._fbRemovePath){
+    window._fbRemovePath('sessions/'+sid);
+  }
+  renderSavedSessions();
+  renderDash();
+  toast('הסבב נמחק');
+}
+function renderEList(){
+  const total=STUDENTS.length;
+  const done=STUDENTS.filter(st=>{const m=state.entry.measurements[st.id];return m.rlxA!==''&&m.rlxA!=null&&m.hrvA!==''&&m.hrvA!=null;}).length;
+  const pct=Math.round(done/total*100);
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('ptxt').textContent=done===0?'לחצי על תלמיד/ה להזנת מדידות':`${done} מתוך ${total} הוזנו`;
+  document.getElementById('svprog').textContent=`${done} / ${total}`;
+  let html='';
+  for(const grp of GROUPS){
+    html+=`<div class="gll">${grp}</div>`;
+    for(const st of STUDENTS.filter(s=>s.group===grp)){
+      const m=state.entry.measurements[st.id];
+      const isDone=m.rlxA!==''&&m.rlxA!=null&&m.hrvA!==''&&m.hrvA!=null;
+      const c=cls(m.rlxA,m.hrvA),col=clsCol(c);
+      const extraCount=m.extraTechs&&m.extraTechs.length?` · +${m.extraTechs.length} תרגולים`:''; const techTag=m.personalTech?` · ${m.personalTech}`:''; const vals=isDone?`RLX ${m.rlxB}→${m.rlxA} · HRV ${m.hrvB}→${m.hrvA}${techTag}${extraCount}`:'לחצי להזנה';
+      html+=`<div class="srow ei ${isDone?'done':''}" data-name="${st.name}" onclick="openESheet('${st.id}')">
+        <div class="srl"><div class="srd" style="background:${isDone?col:'#ccc'}"></div><div><div class="srn">${st.name}</div><div class="srv">${vals}</div></div></div>
+        <div class="srr" style="display:flex;align-items:center;gap:8px;">
+          <button onclick="event.stopPropagation();openStudentChartFromList('${st.id}')" style="background:var(--bg);border:1.5px solid var(--border);border-radius:50%;width:32px;height:32px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">📊</button>
+          ${isDone?'<span class="srck"></span>':'<span class="sred">הזן ›</span>'}
+        </div>
+      </div>`;
+    }
+  }
+  document.getElementById('elist').innerHTML=html;
+  // שומרת על פילטר אם יש חיפוש פעיל
+  const sq=document.getElementById('student-search');
+  if(sq&&sq.value.trim()) filterStudents(sq.value);
+}
+
+// ENTRY SHEET PER STUDENT
+function openESheet(sid){
+  state.eidx=STUDENTS.findIndex(s=>s.id===sid);
+  renderESheet();
+  document.getElementById('eovl').classList.add('open');
+}
+function renderESheet(){
+  const idx=state.eidx,st=STUDENTS[idx];
+  const m=state.entry.measurements[st.id];
+  const c=cls(m.rlxA,m.hrvA),col=clsCol(c);
+  const hasAfterVals=m.rlxA!==''&&m.rlxA!=null&&m.hrvA!==''&&m.hrvA!=null;
+  const hasBoth=hasAfterVals&&m.rlxB!==''&&m.rlxB!=null&&m.hrvB!==''&&m.hrvB!=null;
+  let delta='';
+  if(hasAfterVals){
+    if(hasBoth){
+      const dR=+m.rlxA-+m.rlxB,dH=+m.hrvA-+m.hrvB;
+      const arR=dR>0?`↑ +${dR}`:dR<0?`↓ ${dR}`:'→ 0';
+      const arH=dH>0?`↑ +${dH}`:dH<0?`↓ ${dH}`:'→ 0';
+      delta=`<div class="eidelta show">RLX ${arR} · HRV ${arH} · ${clsLabel(c)}</div>`;
+    } else {
+      delta=`<div class="eidelta show">RLX ${m.rlxA} · HRV ${m.hrvA} · ${clsLabel(c)}</div>`;
+    }
+  } else {
+    delta=`<div class="eidelta"></div>`;
+  }
+  const isFirst=idx===0,isLast=idx===STUDENTS.length-1;
+  document.getElementById('ecnt').innerHTML=`
+    <div class="eih"><div class="eib" style="background:${col}"></div><div><div class="ein">${st.name}</div><div class="eig">${st.group} · ${idx+1}/${STUDENTS.length}</div></div></div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:12px;font-weight:700;color:var(--soft);margin-bottom:6px;">טכניקה שבוצעה עם ${st.name.split(' ')[0]}</div>
+      <select id="i-personalTech" onchange="updatePersonalTech(this.value)" style="width:100%;background:${m.personalTech==='מדידה ללא תרגול'?'var(--rl)':m.personalTech?'var(--dark)':'var(--bg)'};color:${m.personalTech==='מדידה ללא תרגול'?'var(--red)':m.personalTech?'#fff':'var(--soft)'};border:${m.personalTech==='מדידה ללא תרגול'?'2px solid var(--red)':m.personalTech?'2px solid var(--dark)':'1.5px solid var(--border)'};border-radius:var(--r);padding:12px 14px;font-family:inherit;font-size:14px;font-weight:700;direction:rtl;transition:all .2s;">
+        <option value="">כמו הכיתה: ${state.entry.technique}</option>
+        <option value="מדידה ללא תרגול" ${m.personalTech==="מדידה ללא תרגול"?'selected':''}>⊘ מדידה ללא תרגול</option>
+        ${TECHNIQUES.filter(t=>t!==state.entry.technique).map(t=>`<option value="${t}" ${m.personalTech===t?'selected':''}>${t}</option>`).join('')}
+      </select>
+    </div>
+    ${(()=>{const isBaseline=m.personalTech==='מדידה ללא תרגול'||state.entry.technique==='מדידה ללא תרגול';return '<div class="eif"><div><label>RLX לפני</label><input class="bigi" id="i-rlxB" type="number" min="0" max="100" inputmode="numeric" value="'+m.rlxB+'" placeholder="—"></div><div><label>HRV לפני</label><input class="bigi" id="i-hrvB" type="number" min="0" max="100" inputmode="numeric" value="'+m.hrvB+'" placeholder="—"></div>'+(isBaseline?'<div style="grid-column:1/-1;background:var(--rl);border-radius:8px;padding:10px;font-size:12px;color:var(--red);font-weight:700;text-align:center;">מדידה ללא תרגול — לא נדרש מדד אחרי</div><input type="hidden" id="i-rlxA" value=""><input type="hidden" id="i-hrvA" value="">':'<div><label>RLX אחרי</label><input class="bigi" id="i-rlxA" type="number" min="0" max="100" inputmode="numeric" value="'+m.rlxA+'" placeholder="—"></div><div><label>HRV אחרי</label><input class="bigi" id="i-hrvA" type="number" min="0" max="100" inputmode="numeric" value="'+m.hrvA+'" placeholder="—"></div>')+'</div>';})()}
+    ${delta}
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-size:12px;font-weight:700;color:var(--soft);">תרגולים נוספים שבוצעו</div>
+        <button onclick="addExtraTechBlock()" style="background:var(--dark);color:#fff;border:none;border-radius:50px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">+ הוסף תרגול</button>
+      </div>
+      <div id="extra-tech-blocks">${renderExtraTechBlocksHTML(state.entry.measurements[st.id].extraTechs||[])}</div>
+    </div>
+<div class="eia">
+      <button class="eisave" onclick="saveAndNext()">${isLast?'שמור וסיים':'שמור והבא ›'}</button>
+      <button class="eiskip" onclick="skipSt()">דלג</button>
+    </div>
+    <div class="einav">
+      <button onclick="goIdx(${idx-1})" ${isFirst?'disabled':''}>‹ הקודמ/ת</button>
+      <button onclick="goIdx(${idx+1})" ${isLast?'disabled':''}>הבא/ה ›</button>
+    </div>`;
+  // live update
+  ['rlxB','hrvB','rlxA','hrvA'].forEach(f=>{
+    document.getElementById('i-'+f).addEventListener('input',()=>liveUpdate());
+  });
+  // focus first empty
+  setTimeout(()=>{
+    for(const f of['rlxB','hrvB','rlxA','hrvA']){const el=document.getElementById('i-'+f);if(el&&el.value===''){el.focus();el.select&&el.select();break;}}
+  },200);
+}
+// ---- EXTRA TECH BLOCKS ----
+// extraTechs = array of {tech, rlxB, hrvB, rlxA, hrvA}
+const ALL_EXTRA_TECHS=[...TECHNIQUES,'SOS1','PMR','קרקוע','נשימה עמוקה'];
+const UNIQUE_EXTRA_TECHS=[...new Set(ALL_EXTRA_TECHS)];
+
+function renderExtraTechBlocksHTML(extraTechs){
+  if(!extraTechs||!extraTechs.length) return '';
+  return extraTechs.map((et,i)=>{
+    const techOptions=UNIQUE_EXTRA_TECHS.map(t=>`<option value="${t}" ${t===et.tech?'selected':''}>${t}</option>`).join('');
+    return `<div class="extra-block" id="extra-block-${i}" style="background:var(--bg);border-radius:var(--r);padding:14px;margin-bottom:10px;position:relative;">
+      <button onclick="removeExtraTechBlock(${i})" style="position:absolute;top:10px;left:10px;background:none;border:none;font-size:18px;color:var(--soft);cursor:pointer;line-height:1;"></button>
+      <div style="font-size:12px;font-weight:700;color:var(--soft);margin-bottom:8px;">טכניקה נוספת ${i+1}</div>
+      <select onchange="updateExtraTech(${i},'tech',this.value)" style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px;font-family:inherit;font-size:14px;color:var(--dark);margin-bottom:10px;direction:rtl;">${techOptions}</select>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div><label style="display:block;font-size:11px;font-weight:700;color:var(--soft);margin-bottom:6px;">RLX לפני</label><input class="bigi" type="number" min="0" max="100" inputmode="numeric" value="${et.rlxB??''}" placeholder="—" oninput="updateExtraTech(${i},'rlxB',this.value)" style="font-size:24px;padding:12px 8px;"></div>
+        <div><label style="display:block;font-size:11px;font-weight:700;color:var(--soft);margin-bottom:6px;">HRV לפני</label><input class="bigi" type="number" min="0" max="100" inputmode="numeric" value="${et.hrvB??''}" placeholder="—" oninput="updateExtraTech(${i},'hrvB',this.value)" style="font-size:24px;padding:12px 8px;"></div>
+        <div><label style="display:block;font-size:11px;font-weight:700;color:var(--soft);margin-bottom:6px;">RLX אחרי</label><input class="bigi" type="number" min="0" max="100" inputmode="numeric" value="${et.rlxA??''}" placeholder="—" oninput="updateExtraTech(${i},'rlxA',this.value)" style="font-size:24px;padding:12px 8px;"></div>
+        <div><label style="display:block;font-size:11px;font-weight:700;color:var(--soft);margin-bottom:6px;">HRV אחרי</label><input class="bigi" type="number" min="0" max="100" inputmode="numeric" value="${et.hrvA??''}" placeholder="—" oninput="updateExtraTech(${i},'hrvA',this.value)" style="font-size:24px;padding:12px 8px;"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addExtraTechBlock(){
+  const st=STUDENTS[state.eidx];
+  const m=state.entry.measurements[st.id];
+  if(!m.extraTechs) m.extraTechs=[];
+  // Default: same as class technique
+  m.extraTechs.push({tech:state.entry.technique,rlxB:'',hrvB:'',rlxA:'',hrvA:''});
+  const container=document.getElementById('extra-tech-blocks');
+  if(container) container.innerHTML=renderExtraTechBlocksHTML(m.extraTechs);
+}
+
+function removeExtraTechBlock(i){
+  const st=STUDENTS[state.eidx];
+  const m=state.entry.measurements[st.id];
+  if(!m.extraTechs) return;
+  m.extraTechs.splice(i,1);
+  const container=document.getElementById('extra-tech-blocks');
+  if(container) container.innerHTML=renderExtraTechBlocksHTML(m.extraTechs);
+}
+
+function updateExtraTech(i,field,value){
+  const st=STUDENTS[state.eidx];
+  const m=state.entry.measurements[st.id];
+  if(!m.extraTechs||!m.extraTechs[i]) return;
+  m.extraTechs[i][field]=field==='tech'?value:(value===''?'':+value);
+}
+function updatePersonalTech(value){
+  const st=STUDENTS[state.eidx];
+  const m=state.entry.measurements[st.id];
+  m.personalTech=value||null;
+  // Re-render to show/hide after fields
+  renderESheet();
+  // Re-attach listeners
+  ['rlxB','hrvB','rlxA','hrvA'].forEach(f=>{
+    const el=document.getElementById('i-'+f);
+    if(el) el.addEventListener('input',()=>liveUpdate());
+  });
+}
+function liveUpdate(){
+  const st=STUDENTS[state.eidx],m=state.entry.measurements[st.id];
+  ['rlxB','hrvB','rlxA','hrvA'].forEach(f=>{const v=document.getElementById('i-'+f)?.value;if(v!=null)m[f]=v===''?'':+v;});
+  const hasAfter=m.rlxA!==''&&m.rlxA!=null&&m.hrvA!==''&&m.hrvA!=null;
+  const hasBoth=hasAfter&&m.rlxB!==''&&m.rlxB!=null&&m.hrvB!==''&&m.hrvB!=null;
+  const d=document.querySelector('.eidelta');
+  if(d&&hasAfter){
+    const c=cls(m.rlxA,m.hrvA);
+    if(hasBoth){
+      const dR=+m.rlxA-+m.rlxB,dH=+m.hrvA-+m.hrvB;
+      const arR=dR>0?`↑ +${dR}`:dR<0?`↓ ${dR}`:'→ 0';
+      const arH=dH>0?`↑ +${dH}`:dH<0?`↓ ${dH}`:'→ 0';
+      d.textContent=`RLX ${arR} · HRV ${arH} · ${clsLabel(c)}`;
+    } else {
+      d.textContent=`RLX ${m.rlxA} · HRV ${m.hrvA} · ${clsLabel(c)}`;
+    }
+    d.classList.add('show');
+  } else if(d) d.classList.remove('show');
+}
+function flush(){
+  const st=STUDENTS[state.eidx],m=state.entry.measurements[st.id];
+  ['rlxB','hrvB','rlxA','hrvA'].forEach(f=>{const v=document.getElementById('i-'+f)?.value;if(v!=null)m[f]=v===''?'':+v;});
+  const pt=document.getElementById('i-personalTech');if(pt)m.personalTech=pt.value||null;
+}
+function saveAndNext(){
+  flush();
+  const next=state.eidx+1;
+  renderEList();
+  if(next<STUDENTS.length){state.eidx=next;renderESheet();}
+  else{document.getElementById('eovl').classList.remove('open');toast('כל התלמידים הוזנו ');}
+}
+function skipSt(){
+  const next=state.eidx+1;
+  if(next<STUDENTS.length){state.eidx=next;renderESheet();}
+  else{document.getElementById('eovl').classList.remove('open');}
+}
+function goIdx(idx){flush();state.eidx=idx;renderESheet();}
+function closeESheet(e){if(!e||e.target===document.getElementById('eovl')){flush();document.getElementById('eovl').classList.remove('open');renderEList();}}
+
+function saveSession(){
+  if(!state.entry){toast('אין נתונים להזנה');return;}
+  const entry=state.entry,ms={};let count=0;
+  for(const sid in entry.measurements){const m=entry.measurements[sid];if(m.rlxA!==''&&m.rlxA!=null){ms[sid]={...m};count++;}}
+  if(!count){toast('לא הוזנו נתונים');return;}
+  const isEdit=!!state._editingId;
+  const sessId=isEdit?state._editingId:('s-'+entry.date+'-'+Date.now());
+  const sess={id:sessId,date:entry.date,technique:entry.technique,measurements:ms};
+  if(isEdit){
+    state.sessions=state.sessions.map(s=>s.id===sessId?sess:s);
+    state._editingId=null;
+  } else {
+    state.sessions.push(sess);
+  }
+  state.entry=null;
+  // שמירה ל-Google Sheets
+  fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({session:sess,students:STUDENTS})}).catch(()=>{});
+  // שמירה ל-Firebase
+  if(window.saveToFirebase) window.saveToFirebase(sess);
+  toast(isEdit?`הסבב עודכן — ${count} תלמידים`:`הסבב נשמר — ${count} תלמידים`);
+  switchView('dashboard');
+}
+
+// ---- STUDENT MANAGEMENT ----
+let _newGender = null;
+
+function selectNewGender(g, el){
+  _newGender = g;
+  document.querySelectorAll('.ng-btn').forEach(b=>{
+    b.style.background='var(--bg)';b.style.color='var(--soft)';b.style.border='2px solid transparent';
+  });
+  if(el){el.style.background='var(--dark)';el.style.color='#fff';el.style.border='2px solid var(--dark)';}
+}
+
+function openStudentMgmt(){
+  renderStudentMgmtList();
+  document.getElementById('smgmt-ovl').classList.add('open');
+}
+function closeStudentMgmt(e){
+  if(!e||e.target===document.getElementById('smgmt-ovl'))
+    document.getElementById('smgmt-ovl').classList.remove('open');
+}
+
+function renderStudentMgmtList(){
+  const container=document.getElementById('smgmt-list');
+  if(!container) return;
+  let html='';
+  for(const grp of GROUPS){
+    const students=STUDENTS.filter(s=>s.group===grp);
+    if(!students.length) continue;
+    html+=`<div style="font-size:11px;font-weight:800;color:var(--soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">${grp}</div>`;
+    for(const st of students){
+      html+=`<div style="background:var(--white);border-radius:12px;padding:12px;margin-bottom:8px;">
+        <input type="text" value="${st.name}" id="sn-${st.id}"
+          style="width:100%;padding:7px 10px;border-radius:8px;border:1.5px solid var(--border);font-family:inherit;font-size:14px;font-weight:700;margin-bottom:6px;box-sizing:border-box;direction:rtl;"
+          onchange="updateStudentField('${st.id}','name',this.value)">
+        <div style="display:flex;gap:6px;">
+          <button onclick="updateStudentGender('${st.id}','f',this)" id="sgf-${st.id}"
+            style="flex:1;padding:6px;border-radius:50px;border:1.5px solid var(--border);font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;background:${st.gender==='f'?'var(--dark)':'var(--bg)'};color:${st.gender==='f'?'#fff':'var(--soft)'};">בת</button>
+          <button onclick="updateStudentGender('${st.id}','m',this)" id="sgm-${st.id}"
+            style="flex:1;padding:6px;border-radius:50px;border:1.5px solid var(--border);font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;background:${st.gender==='m'?'var(--dark)':'var(--bg)'};color:${st.gender==='m'?'#fff':'var(--soft)'};">בן</button>
+          <select onchange="updateStudentField('${st.id}','group',this.value)"
+            style="flex:2;padding:6px 8px;border-radius:50px;border:1.5px solid var(--border);font-family:inherit;font-size:11px;direction:rtl;background:var(--bg);">
+            ${GROUPS.map(g=>`<option value="${g}" ${g===st.group?'selected':''}>${g}</option>`).join('')}
+          </select>
+        </div>
+      </div>`;
+    }
+  }
+  const groupSel=document.getElementById('new-st-group');
+  if(groupSel) groupSel.innerHTML='<option value="">בחרי קבוצה...</option>'+GROUPS.map(g=>`<option value="${g}">${g}</option>`).join('');
+  container.innerHTML=html;
+}
+
+function updateStudentField(id, field, value){
+  const st=STUDENTS.find(s=>s.id===id);
+  if(!st) return;
+  st[field]=value;
+  if(window._saveStudentConfig) window._saveStudentConfig(id, {[field]:value});
+  if(typeof renderEList==='function') renderEList();
+  if(typeof renderDash==='function') renderDash();
+  toast('עודכן');
+}
+
+function updateStudentGender(id, gender, el){
+  const st=STUDENTS.find(s=>s.id===id);
+  if(!st) return;
+  st.gender=gender;
+  const fb=document.getElementById('sgf-'+id);
+  const mb=document.getElementById('sgm-'+id);
+  if(fb){fb.style.background=gender==='f'?'var(--dark)':'var(--bg)';fb.style.color=gender==='f'?'#fff':'var(--soft)';}
+  if(mb){mb.style.background=gender==='m'?'var(--dark)':'var(--bg)';mb.style.color=gender==='m'?'#fff':'var(--soft)';}
+  if(window._saveStudentConfig) window._saveStudentConfig(id, {gender});
+  toast('עודכן');
+}
+
+function addNewStudent(){
+  const nameEl=document.getElementById('new-st-name');
+  const groupEl=document.getElementById('new-st-group');
+  const name=nameEl?nameEl.value.trim():'';
+  const group=groupEl?groupEl.value:'';
+  if(!name){toast('הכניסי שם');return;}
+  if(!_newGender){toast('בחרי מין');return;}
+  if(!group){toast('בחרי קבוצה');return;}
+  const id='st_'+Date.now();
+  const newSt={id,name,gender:_newGender,group};
+  STUDENTS.push(newSt);
+  if(window._saveStudentConfig) window._saveStudentConfig('_new/'+id,{name,gender:_newGender,group});
+  nameEl.value='';_newGender=null;groupEl.value='';
+  document.querySelectorAll('.ng-btn').forEach(b=>{b.style.background='var(--bg)';b.style.color='var(--soft)';b.style.border='2px solid transparent';});
+  toast('תלמיד/ה נוסף/ה');
+  renderStudentMgmtList();
+  if(typeof renderEList==='function') renderEList();
+  if(typeof renderDash==='function') renderDash();
+}
+
+function selectManualActivity(type, el){
+  mutualState.manualActivity=type;
+  document.querySelectorAll('.mact-btn').forEach(b=>{
+    b.style.background='var(--bg)';b.style.color='var(--soft)';b.style.border='2px solid transparent';
+  });
+  if(el){el.style.background='var(--dark)';el.style.color='#fff';el.style.border='2px solid var(--dark)';}
+  updateGroupScore(); // re-score with new activity
+}
+
+// ---- MUTUAL — state
+const mutualState={activity:null,size:null,gender:null,colorMode:'now',specificGender:null,manualActivity:null};
+
+function switchMutualMode(mode){
+  const isAuto=mode==='auto';
+  document.getElementById('auto-panel').style.display=isAuto?'block':'none';
+  document.getElementById('manual-panel').style.display=isAuto?'none':'block';
+  document.getElementById('tab-auto').style.background=isAuto?'var(--dark)':'var(--white)';
+  document.getElementById('tab-auto').style.color=isAuto?'#fff':'var(--soft)';
+  document.getElementById('tab-auto').style.border=isAuto?'none':'1.5px solid var(--border)';
+  document.getElementById('tab-manual').style.background=isAuto?'var(--white)':'var(--dark)';
+  document.getElementById('tab-manual').style.color=isAuto?'var(--soft)':'#fff';
+  document.getElementById('tab-manual').style.border=isAuto?'1.5px solid var(--border)':'none';
+  if(!isAuto){
+    renderMutual(); // re-render with current colorMode
+    updateGroupScore();
+  }
+}
+
+function selectActivity(type, el){
+  mutualState.activity=type;
+  document.querySelectorAll('.act-btn').forEach(b=>{
+    b.style.background='var(--bg)';b.style.color='var(--soft)';b.style.border='2px solid transparent';
+  });
+  if(el){el.style.background='var(--dark)';el.style.color='#fff';el.style.border='2px solid var(--dark)';}
+}
+function selectSize(n, el){ mutualState.size=n; }
+function selectGender(mode, el){
+  mutualState.gender=mode;
+  mutualState.specificGender=null; // reset
+  document.querySelectorAll('.gnd-btn').forEach(b=>{
+    b.style.background='var(--bg)';b.style.color='var(--soft)';b.style.border='2px solid transparent';
+  });
+  if(el){el.style.background='var(--dark)';el.style.color='#fff';el.style.border='2px solid var(--dark)';}
+  // Show/hide specific gender picker
+  const picker=document.getElementById('specific-gender-pick');
+  if(picker) picker.style.display=mode==='same'?'block':'none';
+}
+function selectSpecificGender(g, el){
+  mutualState.specificGender=g;
+  document.querySelectorAll('.sg-btn').forEach(b=>{
+    b.style.background='var(--bg)';b.style.color='var(--soft)';b.style.border='2px solid transparent';
+  });
+  if(el){el.style.background='var(--dark)';el.style.color='#fff';el.style.border='2px solid var(--dark)';}
+}
+
+function selectAutoColorMode(mode, el){
+  setColorMode(mode);
+}
+
+// Determine anchor type needed per activity
+function anchorTypeForActivity(activity){
+  if(activity==='study') return 'passive';    // מקרקע: הרפיה, אוטוגני, שינה
+  if(activity==='creative') return 'active';  // תנועתי: SOS, ריקוד, ריצה
+  if(activity==='social') return 'social';    // חברתי: כל ירוק (VVS)
+  return 'any';
+}
+const PASSIVE_TECHS=['הרפיית שרירים','הרפיית שינה','אימון אוטוגני','נשימה ואגלית','עבודה עם הדאגות','עיסוי אוזן','המהום'];
+const ACTIVE_TECHS=['תרגיל SOS','ריקוד','ריצה','קפיצה בחבל'];
+
+function anchorFitScore(st, anchorType){
+  // Does this student's best technique match the required anchor type?
+  const bt=bestTech(st.id);
+  if(!bt) return 0;
+  if(anchorType==='passive') return PASSIVE_TECHS.includes(bt.tech)?2:1;
+  if(anchorType==='active') return ACTIVE_TECHS.includes(bt.tech)?2:1;
+  return 1; // social — any green works
+}
+
+function calcGroupScoreV2(members, activity){
+  const data=members.map(s=>({...s}));
+  const anchors=data.filter(s=>s.c==='stable');
+  const needsReg=data.filter(s=>s.c==='intervene'||s.c==='attention');
+  const n=data.length;
+  if(n===0) return{score:0,label:'',color:'var(--soft)',bg:'var(--bg)',reason:''};
+  if(anchors.length===0) return{score:0,label:'לא מומלץ — תיווך מורה דרוש',color:'var(--red)',bg:'var(--rl)',reason:'אין ילד בחלון הסבלנות בקבוצה. המורה חייבת להיות העוגן.'};
+
+  const anchorType=anchorTypeForActivity(activity||'study');
+  const anchorFit=anchors.reduce((sum,a)=>sum+anchorFitScore(a,anchorType),0)/anchors.length;
+  const loadPerAnchor=(n-anchors.length)/anchors.length;
+
+  // Base score by load per anchor
+  let baseScore=0;
+  if(loadPerAnchor<=1) baseScore=5;
+  else if(loadPerAnchor<=2) baseScore=4;
+  else if(loadPerAnchor<=4) baseScore=3;
+  else if(loadPerAnchor<=7) baseScore=2;
+  else baseScore=1;
+
+  // Activity penalty — polyvagal theory based:
+  // Study: prefrontal cortex needs full ventral vagal state → -1.0 if load > 2
+  // Social: SES vulnerable to threat cues → -0.7 if load > 3
+  // Creative: mobilization without fear is OK → no penalty, small bonus for active anchor
+  let activityPenalty=0;
+  if(activity==='study' && loadPerAnchor>2) activityPenalty=1.0;
+  else if(activity==='social' && loadPerAnchor>3) activityPenalty=0.7;
+
+  const fitBonus=(anchorFit-1)*0.5;
+  const creativeBonus=(activity==='creative'&&anchorType==='active'&&anchorFit===2)?0.2:0;
+
+  const rawScore=baseScore+fitBonus+creativeBonus-activityPenalty;
+  const finalScore=Math.min(5,Math.max(0,Math.round(rawScore*10)/10));
+
+  let label='',color='',bg='',reason='';
+  if(finalScore>=4.5){label='ויסות הדדי אופטימלי';color='var(--green)';bg='var(--gl)';}
+  else if(finalScore>=3.5){label='ויסות הדדי אפשרי';color='#2563EB';bg='#EFF6FF';}
+  else if(finalScore>=2.5){label='עומס גבוה על העוגן';color='var(--yellow)';bg='var(--yl)';}
+  else if(finalScore>=1.5){label='ויסות קשה לשמירה';color:'#E67E22';bg:'#FEF3E2';}
+  else{label='לא מומלץ — תיווך מורה דרוש';color='var(--red)';bg='var(--rl)';}
+
+  const anchorNames=anchors.map(a=>a.name.split(' ')[0]).join(', ');
+  const loadStr=Math.round(loadPerAnchor*10)/10;
+  const loadNote=loadPerAnchor<=1?'עומס אופטימלי'
+    :loadPerAnchor<=2?'עומס סביר'
+    :loadPerAnchor<=4?`עומס של ${loadStr} ילדים לכל עוגן`
+    :`עומס גבוה — ${loadStr} ילדים לכל עוגן`;
+  let actNote='';
+  if(activity==='study'&&activityPenalty>0) actNote=' — ללמידה עיונית נדרש חלון סובלנות מלא';
+  else if(activity==='social'&&activityPenalty>0) actNote=' — שיח רגשי דורש תחושת ביטחון גבוהה';
+  else if(activity==='creative'&&creativeBonus>0) actNote=' — עוגן תנועתי מתאים לפעילות יצירתית';
+  if(activity==='study') reason=`${anchorNames} ${anchors.length===1?'מווסת/ת':'מווסתים'} את הקבוצה. ${loadNote}${actNote}.`;
+  else if(activity==='creative') reason=`${anchorNames} ${anchors.length===1?'מוביל/ה':'מובילים'} את האנרגיה. ${loadNote}${actNote}.`;
+  else if(activity==='social') reason=`${anchorNames} ${anchors.length===1?'יוצר/ת':'יוצרים'} ביטחון לשיח. ${loadNote}${actNote}.`;
+  else reason=`${anchorNames} — ${loadNote}.`;
+
+  return{score:finalScore,label,color,bg,reason};
+}
+
+function getStudentCls(st, useAvg){
+  const m=latestM(st.id);
+  const c_now=m?(m.rlxB!=null&&m.rlxB!==''?cls(m.rlxB,m.hrvB):cls(m.rlxA,m.hrvA)):'unknown';
+  const c_avg=avgCls(st.id);
+  // Auto-fallback: if not measured today, use historical average regardless of mode
+  if(c_now==='unknown') return c_avg==='unknown'?'unknown':c_avg;
+  return useAvg?c_avg:c_now;
+}
+
+function tryBuildGroup(dataPool, anchorPool, needsPool, targetSize, genderFilter){
+  const numAnchors=Math.min(anchorPool.length, targetSize>=3?2:1);
+  const chosenAnchors=anchorPool.slice(0,numAnchors);
+  const remaining=targetSize-numAnchors;
+  const chosen=[...chosenAnchors,...needsPool.slice(0,remaining)];
+  if(chosen.length<targetSize){
+    const ids=new Set(chosen.map(s=>s.id));
+    let extras=dataPool.filter(d=>!ids.has(d.id)&&d.c!=='unknown');
+    if(genderFilter) extras=extras.filter(d=>d.gender===genderFilter);
+    if(genderFilter&&extras.length<targetSize-chosen.length){
+      const ids2=new Set(chosen.map(s=>s.id));
+      extras=dataPool.filter(d=>!ids2.has(d.id)&&d.gender===genderFilter);
+    }
+    chosen.push(...extras.slice(0,targetSize-chosen.length));
+  }
+  return chosen;
+}
+
+function buildMemberRow(st, anchorTypeLabel){
+  const isAnchor=st.c==='stable';
+  const bt=bestTech(st.id);
+  const role=isAnchor?`עוגן ${anchorTypeLabel||''}` :'זקוק/ה לוויסות';
+  const roleCol=isAnchor?'var(--green)':'var(--soft)';
+  const techNote=bt?`הטכניקה הטובה: ${bt.tech}`:'אין היסטוריה';
+  return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bg);">
+    <div style="width:36px;height:36px;border-radius:50%;background:${clsCol(st.c)};flex-shrink:0;"></div>
+    <div style="flex:1;">
+      <div style="font-size:14px;font-weight:800;">${st.name}</div>
+      <div style="font-size:11px;color:${roleCol};font-weight:700;">${role}</div>
+      <div style="font-size:10px;color:var(--soft);">${techNote}</div>
+    </div>
+  </div>`;
+}
+
+function buildAutoGroup(){
+  try{
+  if(!mutualState.activity){toast('בחרי סוג פעילות');return;}
+  if(!mutualState.gender){toast('בחרי הרכב מגדרי');return;}
+  if(mutualState.gender==='same'&&!mutualState.specificGender){toast('בחרי בנים או בנות');return;}
+  // Read size from slider
+  const sliderEl=document.getElementById('size-slider');
+  const size=sliderEl?+sliderEl.value:3;
+  mutualState.size=size;
+
+  const useAvg=mutualState.colorMode==='avg';
+  const data=STUDENTS.map(st=>{
+    const m=latestM(st.id);
+    const c=getStudentCls(st,useAvg);
+    return{...st,m,c};
+  });
+
+  const anchorType=anchorTypeForActivity(mutualState.activity);
+  const genderMode=mutualState.gender; // 'same' | 'mixed'
+
+  // All anchors sorted by fit for this activity
+  const allAnchors=data.filter(d=>d.c==='stable')
+    .sort((a,b)=>anchorFitScore(b,anchorType)-anchorFitScore(a,anchorType));
+
+  // Sort needsReg pool by activity priority:
+  // Study: hypo (attention) first — need grounding
+  // Creative: hyper (intervene) first — energy needs channeling
+  // Social: hyper (intervene) first — most need social engagement
+  function sortNeedsForActivity(pool, act){
+    if(act==='study') return [...pool.filter(d=>d.c==='attention'),...pool.filter(d=>d.c==='intervene')];
+    if(act==='creative') return [...pool.filter(d=>d.c==='intervene'),...pool.filter(d=>d.c==='attention')];
+    if(act==='social') return [...pool.filter(d=>d.c==='intervene'),...pool.filter(d=>d.c==='attention')];
+    return pool;
+  }
+
+  if(!allAnchors.length){
+    document.getElementById('auto-result').style.display='block';
+    document.getElementById('auto-result').innerHTML=`<div style="background:var(--rl);border-radius:var(--r);padding:16px;text-align:center;"><div style="font-size:14px;font-weight:700;color:var(--red);">אין ילדים בחלון הסבלנות כרגע</div><div style="font-size:12px;color:var(--soft);margin-top:6px;">מומלץ לבצע ויסות כיתתי לפני הפעילות</div></div>`;
+    return;
+  }
+
+  let chosen;
+  if(genderMode==='same'){
+    // Use explicitly chosen gender, or fallback to best anchor's gender
+    const targetGender=mutualState.specificGender||allAnchors[0].gender;
+    const sameGenderAnchors=allAnchors.filter(s=>s.gender===targetGender);
+    if(!sameGenderAnchors.length){
+      document.getElementById('auto-result').style.display='block';
+      document.getElementById('auto-result').innerHTML=`<div style="background:var(--yl);border-radius:var(--r);padding:16px;text-align:center;font-size:14px;font-weight:700;color:var(--yellow);">אין עוגנים בקבוצת ${targetGender==='f'?'הבנות':'הבנים'} כרגע — נסי מין אחר או מעורב</div>`;
+      return;
+    }
+    const sameGenderNeeds=sortNeedsForActivity(data.filter(d=>d.c!=='stable'&&d.c!=='unknown'&&d.gender===targetGender), mutualState.activity);
+    chosen=tryBuildGroup(data, sameGenderAnchors, sameGenderNeeds, size, targetGender);
+    // Final safety: strip any wrong-gender students
+    chosen=chosen.filter(d=>d.gender===targetGender).slice(0,size);
+  } else {
+    // Mixed: pick best anchors, then fill with activity-sorted needsReg
+    const allNeeds=sortNeedsForActivity(data.filter(d=>d.c!=='stable'&&d.c!=='unknown'), mutualState.activity);
+    chosen=tryBuildGroup(data, allAnchors, allNeeds, size);
+  }
+
+  // Make sure we don't exceed size
+  chosen=chosen.slice(0,size);
+
+  const scoreObj=calcGroupScoreV2(chosen,mutualState.activity);
+  const actLabel={study:'עיוני',creative:'יצירתי',social:'רגשי-חברתי'}[mutualState.activity]||'';
+  const modeLabel=useAvg?'ממוצע':'עכשיו';
+
+  // --- Find optimal group size if score is suboptimal ---
+  let optimalHtml='';
+  if(scoreObj.score<4){
+    // Try smaller sizes to find one with score >= 4
+    let bestOptSize=null, bestOptGroup=null, bestOptScore=0;
+    for(let trySize=2; trySize<size; trySize++){
+      let tryChosen;
+      if(genderMode==='same'){
+        const targetGender=mutualState.specificGender||allAnchors[0].gender;
+        const sgAnchors=allAnchors.filter(s=>s.gender===targetGender);
+        const sgNeeds=sortNeedsForActivity(data.filter(d=>d.c!=='stable'&&d.c!=='unknown'&&d.gender===targetGender), mutualState.activity);
+        tryChosen=tryBuildGroup(data,sgAnchors,sgNeeds,trySize,targetGender).filter(d=>d.gender===targetGender).slice(0,trySize);
+      } else {
+        const allNeeds=sortNeedsForActivity(data.filter(d=>d.c!=='stable'&&d.c!=='unknown'), mutualState.activity);
+        tryChosen=tryBuildGroup(data,allAnchors,allNeeds,trySize).slice(0,trySize);
+      }
+      const tryScore=calcGroupScoreV2(tryChosen,mutualState.activity);
+      if(tryScore.score>bestOptScore){bestOptScore=tryScore.score;bestOptSize=trySize;bestOptGroup=tryChosen;}
+    }
+    if(bestOptSize&&bestOptScore>=4){
+      const anchorsInOpt=bestOptGroup.filter(s=>s.c==='stable').length;
+      const optReason=scoreObj.score<2
+        ? `הקבוצה הנוכחית (${size} ילדים) חלשה מכיוון שיחס העוגנים נמוך מדי — ${chosen.filter(s=>s.c==='stable').length} עוגנים מתוך ${size}.`
+        : `בקבוצה הנוכחית העוגנים מתפזרים על יותר מדי ילדים — יעילות הוויסות ההדדי יורדת.`;
+      const optNames=bestOptGroup.map(s=>s.name.split(' ')[0]).join(', ');
+      optimalHtml=`<div style="background:var(--gl);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;border:1px solid rgba(39,174,114,.2);">
+        <div style="font-size:13px;font-weight:800;color:var(--green);margin-bottom:6px;">הצעה: קבוצה אופטימלית של ${bestOptSize} ילדים (ציון ${bestOptScore.toFixed(1)}/5)</div>
+        <div style="font-size:12px;color:var(--soft);line-height:1.6;margin-bottom:8px;">${optReason}</div>
+        <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:8px;">${optNames}</div>
+        <button onclick="applyOptimalGroup(${JSON.stringify(bestOptGroup.map(s=>s.id))})" style="width:100%;padding:9px;background:var(--green);color:#fff;border:none;border-radius:50px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">החל קבוצה אופטימלית</button>
+      </div>`;
+    }
+  }
+
+  const anchorTypeLabel=anchorType==='passive'?'מקרקע':anchorType==='active'?'תנועתי':'חברתי';
+  let membersHtml=chosen.map(st=>buildMemberRow(st,anchorTypeLabel)).join('');
+
+  const scoreColor=scoreObj.score>=4?'var(--green)':scoreObj.score>=3?'#2563EB':scoreObj.score>=2?'var(--yellow)':'var(--red)';
+  const scoreBg=scoreObj.score>=4?'var(--gl)':scoreObj.score>=3?'#EFF6FF':scoreObj.score>=2?'var(--yl)':'var(--rl)';
+
+  document.getElementById('auto-result').style.display='block';
+  document.getElementById('auto-result').innerHTML=`
+    ${optimalHtml}
+    <div style="background:var(--white);border-radius:var(--R);padding:16px;box-shadow:0 2px 8px rgba(26,26,46,.06);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <div style="font-size:15px;font-weight:800;">קבוצה לפעילות ${actLabel}</div>
+        <div style="background:${scoreBg};border-radius:50px;padding:4px 12px;font-size:13px;font-weight:800;color:${scoreColor};">${scoreObj.score.toFixed(1)} / 5</div>
+      </div>
+      <div style="font-size:11px;color:var(--soft);margin-bottom:14px;">מבוסס על: ${modeLabel} · ${genderMode==='same'?(mutualState.specificGender==='f'?'בנות':'בנים'):'מעורב'} · ${chosen.length} ילדים</div>
+      ${membersHtml}
+      <div style="margin-top:12px;background:${scoreBg};border-radius:var(--r);padding:12px;font-size:12px;color:var(--soft);line-height:1.6;">
+        <span style="font-weight:700;color:${scoreColor};">${scoreObj.label}</span><br>${scoreObj.reason}
+      </div>
+    </div>`;
+  }catch(e){
+    console.error('buildAutoGroup error:',e);
+    toast('שגיאה: '+e.message);
+    const r=document.getElementById('auto-result');
+    if(r){r.style.display='block';r.innerHTML='<div style="padding:16px;color:red;font-size:12px;">שגיאה: '+e.message+'</div>';}
+  }
+}
+
+function applyOptimalGroup(ids){
+  // Re-run buildAutoGroup with optimal size
+  const sliderEl=document.getElementById('size-slider');
+  if(sliderEl){sliderEl.value=ids.length;document.getElementById('size-val').textContent=ids.length;}
+  mutualState.size=ids.length;
+  buildAutoGroup();
+}
+
+// ---- MANUAL MODE ----
+function setColorMode(mode){
+  mutualState.colorMode=mode;
+  // Sync auto-panel buttons
+  const nowBtn=document.getElementById('cma-now');
+  const avgBtn=document.getElementById('cma-avg');
+  if(nowBtn){nowBtn.style.background=mode==='now'?'var(--dark)':'var(--bg)';nowBtn.style.color=mode==='now'?'#fff':'var(--soft)';nowBtn.style.border=mode==='now'?'2px solid var(--dark)':'2px solid transparent';}
+  if(avgBtn){avgBtn.style.background=mode==='avg'?'var(--dark)':'var(--bg)';avgBtn.style.color=mode==='avg'?'#fff':'var(--soft)';avgBtn.style.border=mode==='avg'?'2px solid var(--dark)':'2px solid transparent';}
+  // Sync manual-panel buttons
+  const cmNow=document.getElementById('cm-now');
+  const cmAvg=document.getElementById('cm-avg');
+  if(cmNow){cmNow.style.background=mode==='now'?'var(--dark)':'transparent';cmNow.style.color=mode==='now'?'#fff':'var(--soft)';}
+  if(cmAvg){cmAvg.style.background=mode==='avg'?'var(--dark)':'transparent';cmAvg.style.color=mode==='avg'?'#fff':'var(--soft)';}
+  // Re-render manual panel (bubbles + score) — always, even if hidden, so it's ready
+  const mc=document.getElementById('mc');
+  if(mc) renderMutual();
+  updateGroupScore();
+}
+
+function avgCls(sid){
+  // Average baseline (before) classification across all sessions
+  const sessions=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const clsCounts={stable:0,intervene:0,attention:0};
+  let total=0;
+  for(const s of sessions){
+    const m=s.measurements[sid];
+    if(!m) continue;
+    // Use "before" values if available, otherwise "after"
+    const rlx=m.rlxB!==''&&m.rlxB!=null?m.rlxB:(m.rlxA!==''&&m.rlxA!=null?m.rlxA:null);
+    const hrv=m.hrvB!==''&&m.hrvB!=null?m.hrvB:(m.hrvA!==''&&m.hrvA!=null?m.hrvA:null);
+    if(rlx==null||hrv==null) continue;
+    const c=cls(rlx,hrv);
+    if(c in clsCounts){clsCounts[c]++;total++;}
+  }
+  if(!total) return 'unknown';
+  return Object.entries(clsCounts).sort((a,b)=>b[1]-a[1])[0][0];
+}
+function calcGroupScore(members){
+  const anchors=members.filter(s=>s.c==='stable');
+  const n=members.length;
+  if(anchors.length===0) return 0;
+  if(anchors.length>=2&&n<=4) return 5;
+  if(anchors.length===1&&n<=4) return 4;
+  return 2;
+}
+
+function renderMutual(){
+  const data=STUDENTS.map(st=>{
+    const m=latestM(st.id);
+    const c_now=m?(m.rlxB!=null&&m.rlxB!==''?cls(m.rlxB,m.hrvB):cls(m.rlxA,m.hrvA)):'unknown';
+    const c_avg=avgCls(st.id);
+    // If not measured today — automatically use historical average
+    const c=c_now==='unknown'?(c_avg==='unknown'?'unknown':c_avg):(mutualState.colorMode==='avg'?c_avg:c_now);
+    const usingAvg=c_now==='unknown'&&c_avg!=='unknown';
+    return{...st,m,c,usingAvg};
+  });
+  if(!state.selectedGroup) state.selectedGroup=new Set();
+  let html='';
+  for(const grp of GROUPS){
+    html+=`<div class="gll">${grp}</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;margin-bottom:16px;">`;
+    for(const st of data.filter(d=>d.group===grp)){
+      const isAnchor=st.c==='stable';
+      const needsReg=st.c==='intervene'||st.c==='attention';
+      const statusLabel=isAnchor?'עוגן':needsReg?clsLabel(st.c):st.usingAvg?'ממוצע היסטורי':'לא נמדד';
+      const statusColor=isAnchor?'var(--green)':needsReg?clsCol(st.c):'var(--soft)';
+      const isSelected=state.selectedGroup.has(st.id);
+      html+=`<div onclick="toggleGroupMember('${st.id}')" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:${isSelected?'var(--dark)':'var(--white)'};border-radius:14px;padding:12px 8px;cursor:pointer;box-shadow:0 2px 8px rgba(26,26,46,.06);transition:all .15s;position:relative;min-height:80px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:${isSelected?'#fff':statusColor};margin-bottom:6px;"></div>
+        <div style="font-size:13px;font-weight:700;color:${isSelected?'#fff':'var(--dark)'};text-align:center;">${st.name.split(' ')[0]}</div>
+        <div style="font-size:9px;color:${isSelected?'rgba(255,255,255,.7)':statusColor};margin-top:3px;font-weight:600;text-align:center;">${statusLabel}</div>
+        ${isSelected?'<div style="position:absolute;top:5px;left:5px;width:14px;height:14px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--dark);"></div>':''}
+      </div>`;
+    }
+    html+='</div>';
+  }
+  document.getElementById('mc').innerHTML=html;
+  updateGroupScore();
+}
+
+function toggleGroupMember(sid){
+  if(!state.selectedGroup) state.selectedGroup=new Set();
+  if(state.selectedGroup.has(sid)){
+    state.selectedGroup.delete(sid);
+  } else {
+    state.selectedGroup.add(sid);
+  }
+  renderMutual();
+}
+
+function updateGroupScore(){
+  const card=document.getElementById('group-score-card');
+  if(!state.selectedGroup||state.selectedGroup.size===0){card.style.display='none';return;}
+  const useAvg=mutualState.colorMode==='avg';
+  const selected=STUDENTS.filter(s=>state.selectedGroup.has(s.id)).map(st=>{
+    const _m=latestM(st.id);
+    const c_now=_m?((_m.rlxB!=null&&_m.rlxB!=='')?cls(_m.rlxB,_m.hrvB):cls(_m.rlxA,_m.hrvA)):'unknown';
+    const c_avg=avgCls(st.id);
+    const c=c_now==='unknown'?(c_avg==='unknown'?'unknown':c_avg):(useAvg?c_avg:c_now);
+    return{...st,c};
+  });
+  const anchors=selected.filter(s=>s.c==='stable');
+  const needsReg=selected.filter(s=>s.c==='intervene'||s.c==='attention');
+  const n=selected.length;
+
+  // Use the same scoring as auto mode — load per anchor
+  const scoreObj=calcGroupScoreV2(selected, mutualState.manualActivity||null);
+  const scoreVal=scoreObj.score;
+  const scoreColor=scoreVal>=4?'var(--green)':scoreVal>=3?'#2563EB':scoreVal>=2?'var(--yellow)':'var(--red)';
+  const scoreBg=scoreVal>=4?'var(--gl)':scoreVal>=3?'#EFF6FF':scoreVal>=2?'var(--yl)':'var(--rl)';
+
+  const modeLabel=useAvg?'ממוצע':'עכשיו';
+
+  // Per-member explanation
+  const memberRows=selected.map(st=>{
+    const isAnchor=st.c==='stable';
+    const bt=bestTech(st.id);
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bg);">
+      <div style="width:28px;height:28px;border-radius:50%;background:${clsCol(st.c)};flex-shrink:0;"></div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;">${st.name}</div>
+        <div style="font-size:10px;color:${isAnchor?'var(--green)':'var(--soft)'};">${isAnchor?'עוגן':clsLabel(st.c)}${bt?' · '+bt.tech:''}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  card.style.display='block';
+  card.innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div style="font-size:14px;font-weight:800;">הקבוצה שבחרת</div>
+      <div style="background:${scoreBg};border-radius:50px;padding:4px 12px;font-size:13px;font-weight:800;color:${scoreColor};">${scoreVal.toFixed(1)} / 5</div>
+    </div>
+    <div style="font-size:11px;color:var(--soft);margin-bottom:10px;">מבוסס על: ${modeLabel} · ${anchors.length} עוגנים מתוך ${n} ילדים</div>
+    ${memberRows}
+    <div style="margin-top:10px;background:${scoreBg};border-radius:var(--r);padding:10px;font-size:13px;font-weight:700;color:${scoreColor};text-align:center;">${scoreObj.label}</div>
+    <div style="font-size:11px;color:var(--soft);padding:8px 10px;line-height:1.5;">${scoreObj.reason}</div>
+    <button onclick="state.selectedGroup=new Set();renderMutual();" style="width:100%;margin-top:10px;background:none;border:1px solid var(--border);border-radius:50px;padding:10px;font-family:inherit;font-size:13px;font-weight:600;color:var(--soft);cursor:pointer;">נקה בחירה</button>`;
+}
+
+function openStudentChartFromList(sid){
+  // Open chart popup showing both RLX and HRV at once
+  const st=STUDENTS.find(s=>s.id===sid);
+  const sortedSess=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const points=sortedSess.map(s=>{
+    const m=s.measurements[sid];
+    if(!m) return null;
+    const rlxB=m.rlxB!==''&&m.rlxB!=null?+m.rlxB:null;
+    const rlxA=m.rlxA!==''&&m.rlxA!=null?+m.rlxA:null;
+    const hrvB=m.hrvB!==''&&m.hrvB!=null?+m.hrvB:null;
+    const hrvA=m.hrvA!==''&&m.hrvA!=null?+m.hrvA:null;
+    if(rlxB===null&&rlxA===null&&hrvB===null&&hrvA===null) return null;
+    return{date:s.date,rlxB,rlxA,hrvB,hrvA};
+  }).filter(Boolean);
+  if(!points.length){toast('אין מדידות עדיין');return;}
+  function buildChart(pts,typeB,typeA,col,label){
+    const allVals=pts.flatMap(p=>[p[typeB],p[typeA]]).filter(v=>v!=null);
+    const maxVal=Math.max(...allVals,1);
+    const W=300,H=160,PAD=28,BOTTOM=28,RIGHT=6,TOP=6;
+    const chartW=W-PAD-RIGHT,chartH=H-BOTTOM-TOP;
+    const groupW=chartW/pts.length;
+    const barW=Math.min(16,groupW*0.35);
+    const gap=2;
+    const toY=v=>TOP+(1-v/maxVal)*chartH;
+    let gridLines='',bars='',dateLabels='';
+    [0,25,50,75,100].filter(v=>v<=maxVal+10).forEach(v=>{
+      const y=toY(v);
+      gridLines+=`<line x1="${PAD}" y1="${y}" x2="${W-RIGHT}" y2="${y}" stroke="rgba(26,26,46,0.07)" stroke-width="1"/>`;
+      gridLines+=`<text x="${PAD-3}" y="${y+3}" text-anchor="end" font-size="8" fill="rgba(107,114,128,0.8)">${v}</text>`;
+    });
+    pts.forEach((p,i)=>{
+      const xB=PAD+i*groupW+groupW/2-barW-gap/2;
+      const xA=PAD+i*groupW+groupW/2+gap/2;
+      if(p[typeB]!=null){const y=toY(p[typeB]),bh=H-BOTTOM-y;bars+=`<rect x="${xB}" y="${y}" width="${barW}" height="${Math.max(bh,2)}" rx="2" fill="${col}" opacity="0.4"/><text x="${xB+barW/2}" y="${Math.max(y-2,TOP+8)}" text-anchor="middle" font-size="8" font-weight="700" fill="${col}">${p[typeB]}</text>`;}
+      if(p[typeA]!=null){const y=toY(p[typeA]),bh=H-BOTTOM-y;bars+=`<rect x="${xA}" y="${y}" width="${barW}" height="${Math.max(bh,2)}" rx="2" fill="${col}"/><text x="${xA+barW/2}" y="${Math.max(y-2,TOP+8)}" text-anchor="middle" font-size="8" font-weight="700" fill="${col}">${p[typeA]}</text>`;}
+      const shortDate=p.date.slice(8,10)+'.'+p.date.slice(5,7);
+      const midX=PAD+i*groupW+groupW/2;
+      dateLabels+=`<text x="${midX}" y="${H-3}" text-anchor="middle" font-size="8" fill="rgba(107,114,128,0.85)">${shortDate}</text>`;
+    });
+    return `<div style="margin-bottom:16px;">
+      <div style="font-size:12px;font-weight:700;color:${col};margin-bottom:6px;direction:rtl;">${label}</div>
+      <svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible;direction:ltr;">${gridLines}${bars}${dateLabels}</svg>
+      <div style="display:flex;gap:12px;margin-top:4px;direction:rtl;">
+        <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--soft);font-weight:600;"><div style="width:10px;height:8px;border-radius:2px;background:${col};opacity:.4;"></div>לפני</div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--soft);font-weight:600;"><div style="width:10px;height:8px;border-radius:2px;background:${col};"></div>אחרי</div>
+      </div>
+    </div>`;
+  }
+  const rlxChart=buildChart(points,'rlxB','rlxA','#7C3AED','RLX לאורך זמן');
+  const hrvChart=buildChart(points,'hrvB','hrvA','#2563EB','HRV לאורך זמן');
+  document.getElementById('schart-title').textContent=st.name+' — התקדמות';
+  document.getElementById('schart-body').innerHTML=rlxChart+hrvChart;
+  document.getElementById('schart-ovl').classList.add('open');
+}
+
+// STUDENT CHART POPUP
+function openStudentChart(sid, type){
+  const st=STUDENTS.find(s=>s.id===sid);
+  const col=type==='rlx'?'#7C3AED':'#2563EB';
+  const label=type==='rlx'?'RLX':'HRV';
+  // Collect all before-measurements per session, sorted by date
+  const points=state.sessions.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(s=>{
+    const m=s.measurements[sid];
+    if(!m) return null;
+    const before=type==='rlx'?(m.rlxB!==''&&m.rlxB!=null?+m.rlxB:null):(m.hrvB!==''&&m.hrvB!=null?+m.hrvB:null);
+    const after=type==='rlx'?(m.rlxA!==''&&m.rlxA!=null?+m.rlxA:null):(m.hrvA!==''&&m.hrvA!=null?+m.hrvA:null);
+    if(before===null&&after===null) return null;
+    return{date:s.date,before,after};
+  }).filter(Boolean);
+  if(!points.length){toast('אין מדידות עדיין');return;}
+  const allVals=points.flatMap(p=>[p.before,p.after]).filter(v=>v!=null);
+  const maxVal=Math.max(...allVals,1);
+  // Build bar chart as SVG inline
+  const W=320,H=180,PAD=30,BOTTOM=32,RIGHT=8,TOP=8;
+  const chartW=W-PAD-RIGHT,chartH=H-BOTTOM-TOP;
+  const n=points.length;
+  const groupW=chartW/n;
+  const barW=Math.min(18,groupW*0.35);
+  const gap=3;
+  const toY=v=>TOP+(1-v/maxVal)*chartH;
+  const toX=(i,isBefore)=>PAD+i*groupW+(isBefore?groupW/2-barW-gap/2:groupW/2+gap/2);
+  let bars='';
+  // grid lines
+  let gridLines='';
+  const gridVals=[0,25,50,75,100].filter(v=>v<=maxVal+10);
+  for(const v of gridVals){
+    const y=toY(v);
+    gridLines+=`<line x1="${PAD}" y1="${y}" x2="${W-RIGHT}" y2="${y}" stroke="rgba(26,26,46,0.07)" stroke-width="1"/>`;
+    gridLines+=`<text x="${PAD-4}" y="${y+3}" text-anchor="end" font-size="9" fill="rgba(107,114,128,0.8)">${v}</text>`;
+  }
+  // bars + labels
+  let dateLabels='';
+  for(let i=0;i<points.length;i++){
+    const p=points[i];
+    // Before bar (lighter)
+    if(p.before!=null){
+      const x=toX(i,true),y=toY(p.before),bh=H-BOTTOM-y;
+      bars+=`<rect x="${x}" y="${y}" width="${barW}" height="${Math.max(bh,2)}" rx="3" fill="${col}" opacity="0.45"/>`;
+      bars+=`<text x="${x+barW/2}" y="${Math.max(y-3,TOP+9)}" text-anchor="middle" font-size="9" font-weight="700" fill="${col}">${p.before}</text>`;
+    }
+    // After bar (full color)
+    if(p.after!=null){
+      const x=toX(i,false),y=toY(p.after),bh=H-BOTTOM-y;
+      bars+=`<rect x="${x}" y="${y}" width="${barW}" height="${Math.max(bh,2)}" rx="3" fill="${col}"/>`;
+      bars+=`<text x="${x+barW/2}" y="${Math.max(y-3,TOP+9)}" text-anchor="middle" font-size="9" font-weight="700" fill="${col}">${p.after}</text>`;
+    }
+    // Date label
+    const shortDate=p.date.slice(8,10)+'.'+p.date.slice(5,7);
+    const midX=PAD+i*groupW+groupW/2;
+    dateLabels+=`<text x="${midX}" y="${H-4}" text-anchor="middle" font-size="9" fill="rgba(107,114,128,0.85)">${shortDate}</text>`;
+  }
+  // Legend
+  const legendHtml=`<div style="display:flex;gap:16px;justify-content:center;margin-top:10px;">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--soft);font-weight:600;">
+      <div style="width:12px;height:10px;border-radius:2px;background:${col};opacity:.45;"></div> לפני
+    </div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--soft);font-weight:600;">
+      <div style="width:12px;height:10px;border-radius:2px;background:${col};"></div> אחרי
+    </div>
+  </div>`;
+  const svgHtml=`<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible;direction:ltr;">${gridLines}${bars}${dateLabels}</svg>`;
+  document.getElementById('schart-title').textContent=`${st.name} — ${label} לאורך זמן`;
+  document.getElementById('schart-body').innerHTML=svgHtml+legendHtml;
+  document.getElementById('schart-ovl').classList.add('open');
+}
+function closeStudentChart(e){if(!e||e.target===document.getElementById('schart-ovl'))document.getElementById('schart-ovl').classList.remove('open');}
+
+function openGuide(){document.getElementById('govl').classList.add('open');}
+function closeGuide(e){if(!e||e.target===document.getElementById('govl'))document.getElementById('govl').classList.remove('open');}
+
+renderDash();
+</script>
+<button id="guide-fab" onclick="openGuide()" style="position:fixed;left:16px;top:calc(env(safe-area-inset-top,0px) + 68px);width:48px;height:48px;border-radius:50%;background:var(--dark);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2;">מדריך</button>
+
+<div class="ovl" id="govl" onclick="closeGuide(event)">
+  <div class="sht" style="max-height:90vh">
+    <div class="shh"></div>
+    <div style="font-size:22px;font-weight:800;margin-bottom:20px;">מדריך למורה</div>
+    <div style="font-size:13px;font-weight:700;color:var(--soft);margin-bottom:10px;">מודל חלון הסבלנות</div>
+    <div class="wcs">
+      <div class="wc r"><div class="wct">היפר-עוררות</div><div class="wcb">מחוץ לחלון — עוררות יתר</div><div class="wts"><span class="wt">כעס</span><span class="wt">חרדה</span><span class="wt">היפראקטיביות</span></div><div class="wca">● SOS1 — סקווט + ניעור ידיים</div></div>
+      <div class="wc g"><div class="wct">בחלון הסבלנות</div><div class="wcb">מוכן/ה לקשר ולמידה</div><div class="wts"><span class="wt">סקרנות</span><span class="wt">נוכחות</span><span class="wt">גמישות</span></div><div class="wca">● עוגן לאחרים · למידה עמוקה</div></div>
+      <div class="wc y"><div class="wct">היפו-עוררות</div><div class="wcb">נראה בסדר — הגוף כוון מבפנים</div><div class="wts"><span class="wt">קיבוע</span><span class="wt">פסיביות</span><span class="wt">הימנעות</span></div><div class="wca">● PMR — כיווץ ושחרור שרירים</div></div>
+    </div>
+    <div style="background:var(--bg);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:14px;font-weight:800;margin-bottom:8px;">RLX ו-HRV</div>
+      <p style="font-size:13px;line-height:1.7;color:var(--soft);margin-bottom:6px;"><b>RLX</b> — דריכות שרירית. נמוך = גוף דרוך.</p>
+      <p style="font-size:13px;line-height:1.7;color:var(--soft)"><b>HRV</b> — גמישות מערכת העצבים — ככל שגבוה יותר, התאוששות מהירה יותר מלחץ.</p>
+    </div>
+    <button onclick="closeGuide()" style="width:100%;background:var(--dark);color:#fff;border:none;border-radius:14px;padding:14px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;">סגירה</button>
+  </div>
+</div>
+
+<div class="ovl" id="cvovl" onclick="closeClassView(event)">
+  <div class="sht" style="max-height:92vh">
+    <div class="shh"></div>
+    <div style="font-size:20px;font-weight:800;margin-bottom:4px;">תמונה כיתתית</div>
+    <div style="font-size:13px;color:var(--soft);margin-bottom:20px;" id="cv-sub">—</div>
+    <div id="cv-content" style="direction:rtl;width:100%;"></div>
+    <button onclick="closeClassView()" style="width:100%;background:var(--dark);color:#fff;border:none;border-radius:14px;padding:14px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;margin-top:16px;">סגירה</button>
+  </div>
+</div>
+
+<!-- STUDENT MANAGEMENT POPUP -->
+<div class="ovl" id="smgmt-ovl" onclick="closeStudentMgmt(event)">
+  <div class="sht" style="max-height:85vh;overflow-y:auto;">
+    <div class="shh"></div>
+    <div style="font-size:17px;font-weight:800;margin-bottom:4px;direction:rtl;">ניהול תלמידים</div>
+    <div style="font-size:12px;color:var(--soft);margin-bottom:16px;">שינויים נשמרים אוטומטית לענן</div>
+    <div id="smgmt-list"></div>
+    <!-- Add new student -->
+    <div style="background:var(--bg);border-radius:var(--r);padding:14px;margin-top:8px;">
+      <div style="font-size:12px;font-weight:800;color:var(--soft);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;">הוספת תלמיד/ה חדש/ה</div>
+      <input id="new-st-name" type="text" placeholder="שם מלא" style="width:100%;padding:10px 12px;border-radius:var(--r);border:1.5px solid var(--border);font-family:inherit;font-size:14px;margin-bottom:8px;box-sizing:border-box;direction:rtl;">
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <button class="ng-btn" id="ng-f" onclick="selectNewGender('f',this)" style="flex:1;padding:9px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:50px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">בת</button>
+        <button class="ng-btn" id="ng-m" onclick="selectNewGender('m',this)" style="flex:1;padding:9px;background:var(--bg);color:var(--soft);border:2px solid transparent;border-radius:50px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">בן</button>
+      </div>
+      <select id="new-st-group" style="width:100%;padding:10px 12px;border-radius:var(--r);border:1.5px solid var(--border);font-family:inherit;font-size:14px;margin-bottom:10px;direction:rtl;background:var(--white);">
+        <option value="">בחרי קבוצה...</option>
+        ${GROUPS.map(g=>`<option value="${g}">${g}</option>`).join('')}
+      </select>
+      <button onclick="addNewStudent()" style="width:100%;padding:11px;background:var(--dark);color:#fff;border:none;border-radius:50px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">הוסף תלמיד/ה</button>
+    </div>
+    <button onclick="closeStudentMgmt()" style="width:100%;background:none;border:1px solid var(--border);border-radius:14px;padding:13px;font-family:inherit;font-size:15px;font-weight:700;color:var(--soft);cursor:pointer;margin-top:12px;">סגירה</button>
+  </div>
+</div>
+
+<!-- STUDENT CHART POPUP -->
+<div class="ovl" id="schart-ovl" onclick="closeStudentChart(event)">
+  <div class="sht" style="max-height:75vh;">
+    <div class="shh"></div>
+    <div style="font-size:17px;font-weight:800;margin-bottom:16px;direction:rtl;" id="schart-title"></div>
+    <div id="schart-body" style="direction:ltr;"></div>
+    <button onclick="closeStudentChart()" style="width:100%;background:var(--dark);color:#fff;border:none;border-radius:14px;padding:14px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;margin-top:16px;">סגירה</button>
+  </div>
+</div>
+
+</body>
+</html>
